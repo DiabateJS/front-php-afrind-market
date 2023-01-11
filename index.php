@@ -31,5 +31,7 @@ for ($i = 0 ; $i < count($articles) ; $i++){
 }
 ?>
 </div>
+<br>
+<a href="nouveau.php">Nouveau</a>
 </body>
 </html>
