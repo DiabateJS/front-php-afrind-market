@@ -24,14 +24,14 @@ include "entete.php";
 for ($i = 0 ; $i < count($articles) ; $i++){ 
 ?>
     <div class="card article" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="...">
+        <img src="<?= $articles[$i]->img_link ?>" style="width: 250px; height: 250px;" class="card-img-top" alt="...">
         <div class="card-body">
             <h5 class="card-title"><?= $articles[$i]->libelle ?></h5>
             <p class="card-text">
-                Id :  <?= $articles[$i]->id ?><br>
-                Image : <?= $articles[$i]->img_link ?><br>
-                Quantité : <?= $articles[$i]->qte ?><br>
-                Commentaire : <?= $articles[$i]->commentaire ?> <br>
+                <?= $articles[$i]->prix ?> F CFA<br>
+                <?= $articles[$i]->qte ?> en stock<br>
+                <br>
+                <?= $articles[$i]->commentaire ?> <br>
             </p>
             <a href="#" class="btn btn-primary">Commander</a>
         </div>
