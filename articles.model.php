@@ -11,7 +11,7 @@ class ArticleModel {
     }
 
     public function getArticles(){
-        $sql = "select id, libelle, qte, prix, img_link, commentaire from article";
+        $sql = "select id, libelle, qte, prix, img_link, commentaire from am_articles";
         $entete = array("id", "libelle", "qte", "prix", "img_link", "commentaire");
         $resultat = $this->bdManager->executeSelect($sql, $entete);
         $articles = [];
