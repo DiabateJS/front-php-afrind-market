@@ -23,8 +23,8 @@ include "entete.php";
 <?php
 for ($i = 0 ; $i < count($articles) ; $i++){ 
 ?>
-    <div class="card article" style="width: 18rem;">
-        <img src="<?= $articles[$i]->img_link ?>" style="width: 250px; height: 250px;" class="card-img-top" alt="...">
+    <div class="card article col-md-3 col-xs-12">
+        <img src="<?= $articles[$i]->img_link ?>" style="max-width: 250px; height: 250px;" class="card-img-top img-rounded img-responsive" alt="...">
         <div class="card-body">
             <h5 class="card-title"><?= $articles[$i]->libelle ?></h5>
             <p class="card-text">
