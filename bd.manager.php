@@ -17,23 +17,23 @@ class BdManager {
 		try
 		{
       		$dico = Constante::$LOCAL_BD_CONFIG;
-			$this->_db_host = $dico["host"];
-			$this->_db_user = $dico["user"];
-			$this->_db_pass = $dico["password"];
-			$this->_db_name = $dico["bdname"];
-			$this->_pdo = new PDO('mysql:dbname=' . $this->_db_name . ';host=' . $this->_db_host, $this->_db_user, $this->_db_pass);
+			$this->db_host = $dico["host"];
+			$this->db_user = $dico["user"];
+			$this->db_pass = $dico["password"];
+			$this->db_name = $dico["bdname"];
+			$this->pdo = new PDO('mysql:dbname=' . $this->db_name . ';host=' . $this->db_host, $this->db_user, $this->db_pass);
 		}
 		catch(Exception $e)
 		{
             $this->hasError = true;
-			$this->error = $e->getMessage();
+			$this->errors = $e->getMessage();
 		}
   }
 
   public function executeQuery($sql){
     $res = new Result();
     try {
-        $result = $this->_pdo->query($sql, PDO::FETCH_CLASS, 'stdClass');
+        $result = $this->pdo->query($sql, PDO::FETCH_CLASS, 'stdClass');
         $res->data = $result;
     }
     catch(Exception $e)
@@ -47,7 +47,7 @@ class BdManager {
   function executePreparedQuery($sql, $dicoParam){
     $res = new Result();
     try {
-		$stmt = $this->_pdo->prepare($sql);
+		$stmt = $this->pdo->prepare($sql);
 		$stmt->execute($dicoParam);
 	}
 	catch(Exception $e)
@@ -62,7 +62,7 @@ class BdManager {
         $res = new Result();
         try
         {
-            $result = $this->_pdo->query($query, PDO::FETCH_CLASS, 'stdClass');
+            $result = $this->pdo->query($query, PDO::FETCH_CLASS, 'stdClass');
             if ($result)
             {
                 while ($data = $result->fetch())
@@ -93,7 +93,7 @@ class BdManager {
     $resultats = array();
     try
     {
-        $stmt = $this->_pdo->prepare($sql);
+        $stmt = $this->pdo->prepare($sql);
         $stmt->execute($dicoParam);
         while ($data = $stmt->fetch(PDO::FETCH_ASSOC))
         {
