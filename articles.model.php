@@ -32,6 +32,19 @@ class ArticleModel {
         }
         return $articles;
     }
+
+    public function create($article){
+        $sql = Constante::$CREATE_ARTICLE;
+        $dicoParam = array(
+            "libelle" => $article->libelle,
+            "qte" => $article->qte,
+            "prix" => $article->prix,
+            "img_link" => $article->img_link,
+            "commentaire" => $article->commentaire
+        );
+        $resultat = $this->bdManager->executePreparedQuery($sql, $dicoParam);
+        return $resultat;
+    }
 }
 
 $articleModel = new ArticleModel();
