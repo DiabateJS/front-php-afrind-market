@@ -11,6 +11,10 @@
     padding: 5px;
 }
 
+header {
+    background-color: aliceblue;
+}
+
 @media screen and (max-width: 600px) {
     .articles {
         display: flex;
