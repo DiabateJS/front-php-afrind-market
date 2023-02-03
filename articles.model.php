@@ -1,6 +1,7 @@
 <?php
 include_once "bd.manager.php";
 include_once "article.model.php";
+include_once "constante.php";
 
 class ArticleModel {
     private $bdManager;
@@ -11,7 +12,7 @@ class ArticleModel {
     }
 
     public function getArticles(){
-        $sql = "select id, libelle, qte, prix, img_link, commentaire from am_articles";
+        $sql = Constante::$SELECT_ARTICLES;
         $entete = array("id", "libelle", "qte", "prix", "img_link", "commentaire");
         $resultat = $this->bdManager->executeSelect($sql, $entete);
         $articles = [];

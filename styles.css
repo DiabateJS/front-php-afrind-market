@@ -9,3 +9,14 @@
     border-radius: 5px;
     padding: 5px;
 }
+
+@media screen and (max-width: 600px) {
+    .articles {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .article {
+        margin-bottom: 10px;
+    }
+}
