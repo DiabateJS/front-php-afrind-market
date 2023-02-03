@@ -6,7 +6,7 @@
     <button class="nav-link <?= $page == "article" ? "active" : "" ?> rounded-5" id="article-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="false">Nouveau</button>
   </li>
   <li class="nav-item" role="presentation">
-    <button class="nav-link rounded-5" id="contact-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="false">Contact</button>
+    <button class="nav-link <?= $page == "contact" ? "active" : "" ?> rounded-5" id="contact-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="false">Contact</button>
   </li>
 </ul>
 <script>
@@ -16,5 +16,8 @@
     }
     document.getElementById("article-tab2").onclick = function(){
         window.location.href = urlBase + 'nouveau.php';
+    }
+    document.getElementById("contact-tab2").onclick = function(){
+        window.location.href = urlBase + 'contact.php';
     }
 </script>
