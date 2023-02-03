@@ -8,5 +8,6 @@ class Constante {
     );
 
     public static $SELECT_ARTICLES = "select id, libelle, qte, prix, img_link, commentaire from am_articles";
+    public static $CREATE_ARTICLE = "insert into am_article(libelle, qte, prix, img_link, commentaire) values (:libelle, :qte, :prix, :img_link, :commentaire)";
 }
 ?>
