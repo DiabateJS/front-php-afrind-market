@@ -34,9 +34,20 @@ $article = new Article($id, $libelle, $prix, $qte, $img, $commentaire);
 $articleModel = new ArticleModel();
 $res = $articleModel->create($article);
 if (!$res->hasError){
-    echo "<h3>Article créer avec succès !</h3>";
+?>
+    <h3>Article créer avec succès !</h3>
+    <br>
+    <?= $article->libelle ?><br>
+    Prix : <?= $article->prix ?><br>
+    Quantité : <?= $article->qte ?><br>
+    <?= $article->commentaire ?>
+<?php
 }else{
-    echo "<h3>Erreur survenue à la création de l'article</h3>";
+?>
+   <h3>Erreur survenue à la création de l'article</h3>
+   <br>
+   <?= $res->data ?><br>
+<?php
 }
 ?>
 </div>
