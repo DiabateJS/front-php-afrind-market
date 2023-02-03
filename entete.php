@@ -10,7 +10,7 @@
   </li>
 </ul>
 <script>
-    let urlBase = 'http://localhost:8888/front-php-afrind-market/';
+    let urlBase = 'http://djstechnologies.fr/afrind-market/';
     document.getElementById("articles-tab2").onclick = function(){
         window.location.href = urlBase;
     }
