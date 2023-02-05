@@ -34,7 +34,7 @@ include "entete.php";
     </div>
     <div class="mb-3">
         <label for="formFile" class="form-label">Image article</label>
-        <input class="form-control" type="file" name="img_link" id="formFile" accept="image/png, image/jpeg">
+        <input class="form-control" type="file" name="img_link" id="formFile" accept="image/png, image/jpg, image/jpeg">
     </div>
     <div class="mb-3">
         <label for="commentaire" class="form-label">Commentaire</label>
