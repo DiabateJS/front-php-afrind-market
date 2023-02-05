@@ -1,13 +1,19 @@
 .articles {
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .article {
     border: 1px solid black;
     margin-left: 10px;
+    margin-bottom: 10px;
     border-radius: 5px;
     padding: 5px;
+}
+
+header {
+    background-color: aliceblue;
+    padding: 15px;
 }
 
 @media screen and (max-width: 600px) {
