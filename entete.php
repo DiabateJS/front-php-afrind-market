@@ -2,8 +2,19 @@
   <br>
   <img src="images/afrind_market.jpeg" style="width:150px; height: 150px;margin-bottom:15px;">
   <br>
-  <span><a href="#">Connexion</a> - <a href="#">Panier</a></span><br>
-<nav>
+  <?php
+  if (isset($_SESSION["user"]) && $_SESSION["user"] !== ""){
+  ?>
+    <span><i class="fa fa-user" aria-hidden="true"></i> Utilisateur : <?= $_SESSION["user"] ?> - <i class="fa fa-cart-plus" aria-hidden="true"></i> <a href="#">Mon Panier</a> - <i class="fa fa-user-times" aria-hidden="true"></i> <a href="deconnexion.php">Deconnexion</a></span><br>
+  <?php 
+  }else{
+  ?>
+    <span><i class="fa fa-user" aria-hidden="true"></i> Utilisateur : Inconnu - <i class="fa fa-cart-plus" aria-hidden="true"></i> <a href="#">Panier</a> - <a href="connexion.php">Connexion</a></span><br>
+  <?php
+  }
+  ?>
+  
+<nav> 
 <ul class="nav nav-pills nav-fill gap-2 p-1 small bg-primary rounded-5 shadow-sm" id="pillNav2" role="tablist" style="--bs-nav-link-color: var(--bs-white); --bs-nav-pills-link-active-color: var(--bs-primary); --bs-nav-pills-link-active-bg: var(--bs-white);">
   <li class="nav-item" role="presentation">
     <button class="nav-link <?= $page == "articles" ? "active" : "" ?> rounded-5" id="articles-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="true">Articles</button>
