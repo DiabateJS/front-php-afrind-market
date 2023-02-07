@@ -12,7 +12,7 @@ class UsersModel {
     }
 
     public function isAuth($login, $password){
-        $sql = "select id from user where login = :login and pwd = :pwd";
+        $sql = Constante::$AUTH_USER;
         $entete = array("id");
         $dicoParam = array(
             "login" => $login,
@@ -23,7 +23,7 @@ class UsersModel {
     }
 
     public function getUsers(){
-        $sql = "select id, login, pwd from user";
+        $sql = Constante::$SELECT_USER;
         $entete = array("id", "login", "pwd");
         $resultat = $this->bdManager->executeSelect($sql, $entete);
         $users = [];
