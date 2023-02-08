@@ -23,7 +23,7 @@ class UsersModel {
     }
 
     public function getUsers(){
-        $sql = Constante::$SELECT_USER;
+        $sql = Constante::$SELECT_USERS;
         $entete = array("id", "login", "pwd","email","adresse");
         $resultat = $this->bdManager->executeSelect($sql, $entete);
         $users = [];
@@ -44,7 +44,7 @@ class UsersModel {
     }
 
     public function selectById($id){
-        $sql = "select login, pwd, email, adresse from user where id = :id";
+        $sql = Constante::$SELECT_USER_BY_ID;
         $entete = array("login", "pwd","email","adresse");
         $dicoParam = array(
             "id" => $id
@@ -54,7 +54,7 @@ class UsersModel {
     }
 
     public function create($user){
-        $sql = "insert into user(login, pwd, email, adresse) values (:login, :pwd, :email, :adresse)";
+        $sql = Constante::$CREATE_USER;
         $dicoParam = array(
             "login" => $user->login,
             "pwd" => $user->password,
