@@ -22,11 +22,13 @@ if (isset($_POST["login"]) && isset($_POST["pwd"])){
     if ($isAuth){
         $_SESSION["user"] = $login;
         $_SESSION["userid"] = $res->data[0]["id"];
+        $_SESSION["email"] = $res->data[0]["email"];
         header('Location: index.php');
         exit();
     }else{
         $_SESSION["user"] = "";
         $_SESSION["userid"] = "";
+        $_SESSION["email"] = "";
         $msg_error = "Login ou Mot de passe incorrecte !";
     }
 }
@@ -40,7 +42,7 @@ if (isset($_POST["login"]) && isset($_POST["pwd"])){
                 <input type="text" name="login" id="login" placeholder="Login" class="field" value="<?= isset($_POST["login"]) ? $_POST["login"] : ""  ?>"><br>
                 <input type="password" name="pwd" id="pwd" placeholder="Mot de passe" class="field" value=""><br>
                 <input type="submit" class="btn btn-primary" value="Connecter">
-                <button class="btn btn-success">Creer Compte</button>
+                <a href="creer_compte.php" class="btn btn-success">Creer Compte</a>
             </form>
         </div>
     </div>

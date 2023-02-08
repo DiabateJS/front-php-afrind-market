@@ -18,6 +18,8 @@ include_once "articles.model.php";
 <br>
 <br>
 <?php
+$operation = $_POST["operation"];
+if ($operation == "enregistrer"){
 $id = 0;
 $libelle = $_POST["libelle"];
 $prix = $_POST["prix"];
@@ -48,6 +50,9 @@ if (!$res->hasError){
    <br>
    <?= $res->data ?><br>
 <?php
+}
+}else{
+    header('Location: nouveau.php');
 }
 ?>
 </div>

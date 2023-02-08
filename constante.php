@@ -9,7 +9,7 @@ class Constante {
 
     public static $SELECT_ARTICLES = "select id, libelle, qte, prix, img_link, commentaire from article";
     public static $CREATE_ARTICLE = "insert into article(libelle, qte, prix, img_link, commentaire) values (:libelle, :qte, :prix, :img_link, :commentaire)";
-    public static $AUTH_USER = "select id from user where login = :login and pwd = :pwd";
-    public static $SELECT_USER = "select id, login, pwd from user";
+    public static $AUTH_USER = "select id, email, adresse from user where login = :login and pwd = :pwd";
+    public static $SELECT_USER = "select id, login, pwd, email, adresse from user";
 }
 ?>

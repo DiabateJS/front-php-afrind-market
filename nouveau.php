@@ -40,20 +40,11 @@ include "entete.php";
         <label for="commentaire" class="form-label">Commentaire</label>
         <textarea class="form-control" id="commentaire" name="commentaire" rows="3" required></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Enregistrer</button>
-    <button class="btn btn-success" onclick="clearFields()">Nouveau</button>
+    <button type="submit" class="btn btn-primary" name="operation" value="enregistrer">Enregistrer</button>
+    <button class="btn btn-success" name="operation" value="nouveau">Nouveau</button>
 </form>
 <br>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-<script>
-    function clearFields(){
-        document.getElementById("libelle").value = "";
-        document.getElementById("prix").value = "";
-        document.getElementById("qte").value = "";
-        document.getElementById("formFile").value = "";
-        document.getElementById("commentaire").value = "";
-    }
-</script>
 </body>
 </html>
