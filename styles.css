@@ -16,6 +16,26 @@ header {
     padding: 15px;
 }
 
+.field {
+    margin-bottom: 5px;
+    width: 400px;
+    height: 35px;
+}
+
+#msg_error {
+    margin-bottom: 5px;
+}
+
+#form-container {
+    width: 500px;
+    padding: 15px;
+    border: 1px solid violet;
+    border-radius: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
+}
+
 @media screen and (max-width: 600px) {
     .articles {
         display: flex;
