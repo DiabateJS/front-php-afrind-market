@@ -23,7 +23,7 @@ Login : <?= $user["login"] ?><br>
 Email : <?= $user["email"] ?><br>
 Adresse : <?= $user["adresse"] ?><br>
 <?php
-if (!isset($_SESSION["profil"]) && $_SESSION["profil"] == "admin"){
+if (isset($_SESSION["profil"]) && $_SESSION["profil"] == "admin"){
 ?>
 Profil : <?= $user->profil ?>
 <?php    
