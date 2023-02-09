@@ -22,6 +22,13 @@ $user = $userModel->selectById($userId)[0];
 Login : <?= $user["login"] ?><br>
 Email : <?= $user["email"] ?><br>
 Adresse : <?= $user["adresse"] ?><br>
+<?php
+if (!isset($_SESSION["profil"]) && $_SESSION["profil"] == "admin"){
+?>
+Profil : <?= $user->profil ?>
+<?php    
+}
+?>
 <br>
 <a href="index.php">Accueil</a>
 </div>
