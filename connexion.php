@@ -2,6 +2,7 @@
 session_start();
 include_once "users.model.php";
 $userModel = new UsersModel();
+$msg_error = "";
 ?>
 <!DOCTYPE html>
 <html lang="en">
