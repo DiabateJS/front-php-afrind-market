@@ -25,7 +25,7 @@ Adresse : <?= $user["adresse"] ?><br>
 <?php
 if (isset($_SESSION["profil"]) && $_SESSION["profil"] == "admin"){
 ?>
-Profil : <?= $user->profil ?>
+Profil : <?= $user["profil"] ?>
 <?php    
 }
 ?>
