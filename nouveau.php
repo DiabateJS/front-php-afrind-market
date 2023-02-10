@@ -1,4 +1,5 @@
 <?php
+session_start();
 $page = "article";
 ?>
 <!DOCTYPE html>
