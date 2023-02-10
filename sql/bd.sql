@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `article`
 --
 
-CREATE TABLE `article` (
+CREATE TABLE `am_articles` (
   `id` int(11) NOT NULL,
   `libelle` varchar(250) NOT NULL,
   `qte` int(11) NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE `article` (
 -- Dumping data for table `article`
 --
 
-INSERT INTO `article` (`id`, `libelle`, `qte`, `prix`, `img_link`, `commentaire`) VALUES
+INSERT INTO `am_articles` (`id`, `libelle`, `qte`, `prix`, `img_link`, `commentaire`) VALUES
 (1, 'Robe courte', 15, 15000, 'images/1.jpeg', ''),
 (2, 'Robe longue', 30, 20000, 'images/2.jpeg', 'com_1'),
 (9, 'Robe longue 1', 50, 20000, 'images/3.jpeg', 'com_3'),
@@ -44,7 +44,7 @@ INSERT INTO `article` (`id`, `libelle`, `qte`, `prix`, `img_link`, `commentaire`
 
 -- --------------------------------------------------------
 
-CREATE TABLE `profil` (
+CREATE TABLE `am_profil` (
   `id` int(11) NOT NULL,
   `libelle` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -53,9 +53,9 @@ CREATE TABLE `profil` (
 -- Dumping data for table `profil`
 --
 
-INSERT INTO `profil` (`id`, `libelle`) VALUES
-(1, 'admin'),
-(2, 'user');
+INSERT INTO `am_profil` (`id`, `libelle`) VALUES
+(1, 'user'),
+(2, 'admin');
 
 --
 -- Indexes for dumped tables
@@ -64,7 +64,7 @@ INSERT INTO `profil` (`id`, `libelle`) VALUES
 --
 -- Indexes for table `profil`
 --
-ALTER TABLE `profil`
+ALTER TABLE `am_profil`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -74,7 +74,7 @@ ALTER TABLE `profil`
 --
 -- AUTO_INCREMENT for table `profil`
 --
-ALTER TABLE `profil`
+ALTER TABLE `am_profil`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 
@@ -82,7 +82,7 @@ ALTER TABLE `profil`
 -- Table structure for table `user`
 --
 
-CREATE TABLE `user` (
+CREATE TABLE `am_user` (
   `id` int(11) NOT NULL,
   `login` varchar(50) NOT NULL,
   `pwd` varchar(15) NOT NULL,
@@ -95,7 +95,7 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `login`, `pwd`, `email`, `adresse`, `idprofil`) VALUES
+INSERT INTO `am_user` (`id`, `login`, `pwd`, `email`, `adresse`, `idprofil`) VALUES
 (1, 'jean', 'js', 'jeansekoudiabate@gmail.com', '23 Rue des Champs', 1),
 (2, 'awafrind', 'azerty', 'afrindmarket@gmail.com', '23 Rue de la victoire', 2);
 
@@ -106,13 +106,13 @@ INSERT INTO `user` (`id`, `login`, `pwd`, `email`, `adresse`, `idprofil`) VALUES
 --
 -- Indexes for table `article`
 --
-ALTER TABLE `article`
+ALTER TABLE `am_articles`
   ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `user`
 --
-ALTER TABLE `user`
+ALTER TABLE `am_user`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -122,12 +122,12 @@ ALTER TABLE `user`
 --
 -- AUTO_INCREMENT for table `article`
 --
-ALTER TABLE `article`
+ALTER TABLE `am_articles`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
-ALTER TABLE `user`
+ALTER TABLE `am_user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
