@@ -25,12 +25,21 @@
   <li class="nav-item" role="presentation">
     <button class="nav-link <?= $page == "contact" ? "active" : "" ?> rounded-5" id="contact-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="false">Contact</button>
   </li>
+  <?php
+  if (isset($_SESSION["profil"]) && $_SESSION["profil"] == "admin"){ 
+  ?>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link <?= $page == "administration" ? "active" : "" ?> rounded-5" id="admin-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="false">Administration</button>
+  </li>
+  <?php
+  }
+  ?>
 </ul>
 <br>
 </nav>
 </header>
 <script>
-    let urlBase = 'http://localhost:8888/front-php-afrind-market/';
+    let urlBase = 'http://localhost/front-php-afrind-market/';
     document.getElementById("articles-tab2").onclick = function(){
         window.location.href = urlBase;
     }
@@ -39,5 +48,8 @@
     }
     document.getElementById("contact-tab2").onclick = function(){
         window.location.href = urlBase + 'contact.php';
+    }
+    document.getElementById("admin-tab2").onclick = function(){
+        window.location.href = urlBase + 'administration.php';
     }
 </script>
