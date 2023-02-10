@@ -22,8 +22,9 @@ if (isset($_POST)){
         $mdp = $_POST["mdp"];
         $mdp1 = $_POST["mdp1"];
         $adresse = $_POST["adresse"];
+        $profil = "user";
 
-        $user = new User(1,$login, $mdp, $email, $adresse);
+        $user = new User(1,$login, $mdp, $email, $adresse, $profil);
         $userModel = new UsersModel();
         $isPwdConfirm = $mdp == $mdp1;
         if (!$isPwdConfirm){
