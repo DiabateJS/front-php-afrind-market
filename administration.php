@@ -37,6 +37,8 @@ $profils = $profilModel->getProfils();
             <table class="table table-striped">
                 <thead>
                     <tr>
+                        <th>Nom</th>
+                        <th>Prenom</th>
                         <th>Login</th>
                         <th>Email</th>
                         <th>Adresse</th>
@@ -48,6 +50,8 @@ $profils = $profilModel->getProfils();
                         for($i = 0 ; $i < count($users) ; $i++){
                     ?>
                         <tr>
+                            <td><?= $users[$i]->nom ?></td>
+                            <td><?= $users[$i]->prenom ?></td>
                             <td><?= $users[$i]->login ?></td>
                             <td><?= $users[$i]->email ?></td>
                             <td><?= $users[$i]->adresse ?></td>

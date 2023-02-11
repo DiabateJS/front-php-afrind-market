@@ -24,11 +24,15 @@ if (isset($_POST["login"]) && isset($_POST["pwd"])){
         $_SESSION["user"] = $login;
         $_SESSION["userid"] = $res->data[0]["id"];
         $_SESSION["email"] = $res->data[0]["email"];
+        $_SESSION["nom"] = $res->data[0]["nom"];
+        $_SESSION["prenom"] = $res->data[0]["prenom"];
         $_SESSION["profil"] = $res->data[0]["profil"];
         header('Location: index.php');
         exit();
     }else{
         $_SESSION["user"] = "";
+        $_SESSION["nom"] = "";
+        $_SESSION["prenom"] = "";
         $_SESSION["userid"] = "";
         $_SESSION["email"] = "";
         $_SESSION["profil"] = "";

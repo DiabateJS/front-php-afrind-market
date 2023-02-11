@@ -20,6 +20,8 @@ $userModel = new UsersModel();
 $userId = $_GET["id"];
 $user = $userModel->selectById($userId)[0];
 ?>
+Nom : <?= $user["nom"] ?><br>
+Prenom : <?= $user["prenom"] ?><br>
 Login : <?= $user["login"] ?><br>
 Email : <?= $user["email"] ?><br>
 Adresse : <?= $user["adresse"] ?><br>

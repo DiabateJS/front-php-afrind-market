@@ -19,18 +19,20 @@ if (isset($_POST)){
     if ($_POST["operation"] == "enregistrer"){
         $email = $_POST["email"];
         $login = $_POST["login"];
+        $nom = $_POST["nom"];
+        $prenom = $_POST["prenom"];
         $mdp = $_POST["mdp"];
         $mdp1 = $_POST["mdp1"];
         $adresse = $_POST["adresse"];
         $profil = "user";
 
-        $user = new User(1,$login, $mdp, $email, $adresse, $profil);
+        $user = new User(1,$login, $mdp,$nom, $prenom, $email, $adresse, $profil);
         $userModel = new UsersModel();
         $isPwdConfirm = $mdp == $mdp1;
         if (!$isPwdConfirm){
             $msg_error = "Veuillez confirmer le mot de passe";
         }else{
-            if ($email !== "" && $login !== "" && $mdp !== "" && $adresse != ""){
+            if ($email !== "" && $login !== "" && $mdp !== "" && $nom !== "" && $prenom !== "" && $adresse != ""){
                 $resultat = $userModel->create($user);
                 $msg_error = $resultat->hasError == False ? "Utilisateur créer avec succes !" : "Erreur a la creation du user !";
             }else {
@@ -41,6 +43,8 @@ if (isset($_POST)){
     if ($_POST["operation"] == "nouveau"){
         $_POST["email"] = "";
         $_POST["login"] = "";
+        $_POST["nom"] = "";
+        $_POST["prenom"] = "";
         $_POST["mdp"] = "";
         $_POST["mdp1"] = "";
         $_POST["adresse"] = "";
@@ -54,6 +58,14 @@ if (isset($_POST)){
 <form method="POST" action="creer_compte.php">
     <div class="mb-3">
         <?= $msg_error ?>
+    </div>
+    <div class="mb-3">
+        <label for="nom" class="form-label">Nom</label>
+        <input type="text" class="form-control" name="nom" id="nom" required>
+    </div>
+    <div class="mb-3">
+        <label for="prenom" class="form-label">Prenom</label>
+        <input type="text" class="form-control" name="nom" id="prenom" required>
     </div>
     <div class="mb-3">
         <label for="email" class="form-label">Email</label>
