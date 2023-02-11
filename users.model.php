@@ -41,7 +41,7 @@ class UsersModel {
                 $users[] = $user;
             }
         }
-        return $user;
+        return $users;
     }
 
     public function selectById($id){
