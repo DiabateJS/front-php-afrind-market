@@ -34,10 +34,12 @@ class UsersModel {
                 $id = $res[$i]["id"];
                 $login = $res[$i]["login"];
                 $pwd = $res[$i]["pwd"];
+                $nom = $res[$i]["nom"];
+                $prenom = $res[$i]["prenom"];
                 $email = $res[$i]["email"];
                 $adresse = $res[$i]["adresse"];
                 $profil = $res[$i]["profil"];
-                $user = new User($id, $login, $pwd,$email,$adresse,$profil);
+                $user = new User($id, $login, $pwd, $nom, $prenom, $email,$adresse,$profil);
                 $users[] = $user;
             }
         }
