@@ -134,3 +134,24 @@ ALTER TABLE `user`
 
 ALTER TABLE `user` ADD `nom` VARCHAR(50) NOT NULL AFTER `pwd`, ADD `prenom` VARCHAR(100) NOT NULL AFTER `nom`;
 
+CREATE TABLE `commande` (
+  `id` int NOT NULL,
+  `libelle` varchar(50) NOT NULL,
+  `datecmd` varchar(20) NOT NULL,
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `ligne_commande`
+--
+
+CREATE TABLE `ligne_commande` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `idarticle` int NOT NULL,
+  `iduser` int NOT NULL,
+  `qte` int NOT NULL,
+  `idcmd` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+

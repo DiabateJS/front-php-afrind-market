@@ -35,7 +35,7 @@ for ($i = 0 ; $i < count($articles) ; $i++){
                 <br>
                 <?= $articles[$i]->commentaire ?> <br>
             </p>
-            <a href="#" class="btn btn-primary">Commander</a>
+            <a href="commander.php?idarticle=<?= $articles[$i]->id ?>" class="btn btn-primary">Commander</a>
         </div>
     </div>
 <?php
