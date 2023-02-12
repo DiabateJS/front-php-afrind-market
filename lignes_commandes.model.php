@@ -22,7 +22,7 @@ class LignesCommandesModel {
     }
 
     public function selectByUserId($userId){
-        $sql = "select l.id, l.idarticle, a.libelle, a.img_link, a.prix, l.qte from ligne_commande l join article a on l.idarticle = a.id where l.iduser = :iduser";
+        $sql = Constante::$SELECT_LIGNES_COMS_BY_USER_ID;
         $entete = array("id","idarticle","libelle","img_link","prix","qte");
         $dicoParam = array(
             "iduser" => $userId
