@@ -5,11 +5,11 @@
   <?php
   if (isset($_SESSION["user"]) && $_SESSION["user"] !== ""){
   ?>
-    <span><i class="fa fa-user" aria-hidden="true"></i> Utilisateur : <?= $_SESSION["user"] ?> - <i class="fa fa-cart-plus" aria-hidden="true"></i> <a href="#">Mon Panier</a> - <i class="fa fa-cog" aria-hidden="true"></i> <a href="profil.php?id=<?= $_SESSION["userid"] ?>">Mon Profil</a> - <i class="fa fa-user-times" aria-hidden="true"></i> <a href="deconnexion.php">Deconnexion</a></span><br>
+    <span><i class="fa fa-user" aria-hidden="true"></i> Utilisateur : <?= $_SESSION["user"] ?> - <i class="fa fa-cart-plus" aria-hidden="true"></i> <a href="panier.php?userid=<?= $_SESSION["userid"] ?>">Mon Panier</a> - <i class="fa fa-cog" aria-hidden="true"></i> <a href="profil.php?id=<?= $_SESSION["userid"] ?>">Mon Profil</a> - <i class="fa fa-user-times" aria-hidden="true"></i> <a href="deconnexion.php">Deconnexion</a></span><br>
   <?php 
   }else{
   ?>
-    <span><i class="fa fa-user" aria-hidden="true"></i> Utilisateur : Inconnu - <i class="fa fa-cart-plus" aria-hidden="true"></i> <a href="#">Panier</a> - <i class="fa fa-user-circle" aria-hidden="true"></i> <a href="connexion.php">Connexion</a></span><br>
+    <span><i class="fa fa-user" aria-hidden="true"></i> Utilisateur : Inconnu - <i class="fa fa-user-circle" aria-hidden="true"></i> <a href="connexion.php">Connexion</a></span><br>
   <?php
   }
   ?>
