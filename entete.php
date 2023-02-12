@@ -19,9 +19,15 @@
   <li class="nav-item" role="presentation">
     <button class="nav-link <?= $page == "articles" ? "active" : "" ?> rounded-5" id="articles-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="true">Articles</button>
   </li>
+  <?php
+  if (isset($_SESSION["profil"]) && $_SESSION["profil"] == "admin"){ 
+  ?>
   <li class="nav-item" role="presentation">
     <button class="nav-link <?= $page == "article" ? "active" : "" ?> rounded-5" id="article-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="false">Nouveau</button>
   </li>
+  <?php
+  }
+  ?>
   <li class="nav-item" role="presentation">
     <button class="nav-link <?= $page == "contact" ? "active" : "" ?> rounded-5" id="contact-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="false">Contact</button>
   </li>
@@ -43,13 +49,25 @@
     document.getElementById("articles-tab2").onclick = function(){
         window.location.href = urlBase;
     }
+    <?php
+    if (isset($_SESSION["profil"]) && $_SESSION["profil"] == "admin"){ 
+    ?>
     document.getElementById("article-tab2").onclick = function(){
         window.location.href = urlBase + 'nouveau.php';
     }
+    <?php
+    }
+    ?>
     document.getElementById("contact-tab2").onclick = function(){
         window.location.href = urlBase + 'contact.php';
     }
+    <?php
+    if (isset($_SESSION["profil"]) && $_SESSION["profil"] == "admin"){ 
+    ?>
     document.getElementById("admin-tab2").onclick = function(){
         window.location.href = urlBase + 'administration.php';
     }
+    <?php
+    }
+    ?>
 </script>
