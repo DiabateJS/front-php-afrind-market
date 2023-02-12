@@ -86,6 +86,8 @@ CREATE TABLE `am_user` (
   `id` int(11) NOT NULL,
   `login` varchar(50) NOT NULL,
   `pwd` varchar(15) NOT NULL,
+  `nom` varchar(50) NOT NULL,
+  `prenom` varchar(100) NOT NULL,
   `email` varchar(250) NOT NULL,
   `adresse` varchar(250) NOT NULL,
   `idprofil` int(11) NOT NULL
@@ -96,8 +98,8 @@ CREATE TABLE `am_user` (
 --
 
 INSERT INTO `am_user` (`id`, `login`, `pwd`, `email`, `adresse`, `idprofil`) VALUES
-(1, 'jean', 'js', 'jeansekoudiabate@gmail.com', '23 Rue des Champs', 1),
-(2, 'awafrind', 'azerty', 'afrindmarket@gmail.com', '23 Rue de la victoire', 2);
+(1, 'jean', 'js', 'DIABATE','JEAN SEKOU','jeansekoudiabate@gmail.com', '23 Rue des Champs', 1),
+(2, 'awafrind', 'azerty','FRINDE','AWA', 'afrindmarket@gmail.com', '23 Rue de la victoire', 2);
 
 --
 -- Indexes for dumped tables
@@ -130,4 +132,26 @@ ALTER TABLE `am_articles`
 --
 ALTER TABLE `am_user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+
+CREATE TABLE `am_commande` (
+  `id` int NOT NULL,
+  `libelle` varchar(50) NOT NULL,
+  `datecmd` varchar(20) NOT NULL,
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `ligne_commande`
+--
+
+CREATE TABLE `am_ligne_commande` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `idarticle` int NOT NULL,
+  `iduser` int NOT NULL,
+  `qte` int NOT NULL,
+  `idcmd` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 

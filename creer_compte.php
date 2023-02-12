@@ -8,7 +8,7 @@ include_once "users.model.php";
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="bootstrap.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Vente en ligne - Inscription</title>
 </head>
@@ -19,18 +19,20 @@ if (isset($_POST)){
     if ($_POST["operation"] == "enregistrer"){
         $email = $_POST["email"];
         $login = $_POST["login"];
+        $nom = $_POST["nom"];
+        $prenom = $_POST["prenom"];
         $mdp = $_POST["mdp"];
         $mdp1 = $_POST["mdp1"];
         $adresse = $_POST["adresse"];
         $profil = "user";
 
-        $user = new User(1,$login, $mdp, $email, $adresse, $profil);
+        $user = new User(1,$login, $mdp,$nom, $prenom, $email, $adresse, $profil);
         $userModel = new UsersModel();
         $isPwdConfirm = $mdp == $mdp1;
         if (!$isPwdConfirm){
             $msg_error = "Veuillez confirmer le mot de passe";
         }else{
-            if ($email !== "" && $login !== "" && $mdp !== "" && $adresse != ""){
+            if ($email !== "" && $login !== "" && $mdp !== "" && $nom !== "" && $prenom !== "" && $adresse != ""){
                 $resultat = $userModel->create($user);
                 $msg_error = $resultat->hasError == False ? "Utilisateur créer avec succes !" : "Erreur a la creation du user !";
             }else {
@@ -41,6 +43,8 @@ if (isset($_POST)){
     if ($_POST["operation"] == "nouveau"){
         $_POST["email"] = "";
         $_POST["login"] = "";
+        $_POST["nom"] = "";
+        $_POST["prenom"] = "";
         $_POST["mdp"] = "";
         $_POST["mdp1"] = "";
         $_POST["adresse"] = "";
@@ -54,6 +58,14 @@ if (isset($_POST)){
 <form method="POST" action="creer_compte.php">
     <div class="mb-3">
         <?= $msg_error ?>
+    </div>
+    <div class="mb-3">
+        <label for="nom" class="form-label">Nom</label>
+        <input type="text" class="form-control" name="nom" id="nom" required>
+    </div>
+    <div class="mb-3">
+        <label for="prenom" class="form-label">Prenom</label>
+        <input type="text" class="form-control" name="nom" id="prenom" required>
     </div>
     <div class="mb-3">
         <label for="email" class="form-label">Email</label>
@@ -79,6 +91,6 @@ if (isset($_POST)){
     <button class="btn btn-success" name="operation" value="nouveau">Nouveau</button>
 </form>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+<script src="bootstrap.js"></script>
 </body>
 </html>

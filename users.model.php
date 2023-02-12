@@ -13,7 +13,7 @@ class UsersModel {
 
     public function isAuth($login, $password){
         $sql = Constante::$AUTH_USER;
-        $entete = array("id","email","adresse","profil");
+        $entete = array("id","email","nom","prenom","adresse","profil");
         $dicoParam = array(
             "login" => $login,
             "pwd" => $password
@@ -24,7 +24,7 @@ class UsersModel {
 
     public function getUsers(){
         $sql = Constante::$SELECT_USERS;
-        $entete = array("id", "login", "pwd","email","adresse","profil");
+        $entete = array("id", "login", "pwd","nom","prenom","email","adresse","profil");
         $resultat = $this->bdManager->executeSelect($sql, $entete);
         $users = [];
         $user = null;
@@ -34,19 +34,21 @@ class UsersModel {
                 $id = $res[$i]["id"];
                 $login = $res[$i]["login"];
                 $pwd = $res[$i]["pwd"];
+                $nom = $res[$i]["nom"];
+                $prenom = $res[$i]["prenom"];
                 $email = $res[$i]["email"];
                 $adresse = $res[$i]["adresse"];
                 $profil = $res[$i]["profil"];
-                $user = new User($id, $login, $pwd,$email,$adresse,$profil);
+                $user = new User($id, $login, $pwd, $nom, $prenom, $email,$adresse,$profil);
                 $users[] = $user;
             }
         }
-        return $user;
+        return $users;
     }
 
     public function selectById($id){
         $sql = Constante::$SELECT_USER_BY_ID;
-        $entete = array("login", "pwd","email","adresse","profil");
+        $entete = array("login", "pwd","nom","prenom","email","adresse","profil");
         $dicoParam = array(
             "id" => $id
         );
@@ -59,6 +61,8 @@ class UsersModel {
         $dicoParam = array(
             "login" => $user->login,
             "pwd" => $user->password,
+            "nom" => $user->nom,
+            "prenom" => $user->prenom,
             "email" => $user->email,
             "adresse" => $user->adresse,
             "profil" => $user->profil

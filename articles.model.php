@@ -1,6 +1,7 @@
 <?php
 include_once "bd.manager.php";
 include_once "article.model.php";
+include_once "article.model.php";
 include_once "constante.php";
 
 class ArticleModel {
@@ -44,6 +45,26 @@ class ArticleModel {
         );
         $resultat = $this->bdManager->executePreparedQuery($sql, $dicoParam);
         return $resultat;
+    }
+
+    public function selectById($id){
+        $sql = "select id, libelle, qte, prix, img_link, commentaire from article where id = :id";
+        $entete = array("id","libelle","qte","prix","img_link","commentaire");
+        $dicoParam = array(
+            "id" => $id
+        );
+        $resultat = $this->bdManager->executePreparedSelect($sql, $dicoParam, $entete);
+        $article = null;
+        $res = $resultat->data;
+        if (count($res) > 0){
+            $libelle = $res[0]["libelle"];
+            $qte = $res[0]["qte"];
+            $prix = $res[0]["prix"];
+            $img = $res[0]["img_link"];
+            $com = $res[0]["commentaire"];
+            $article = new Article($id, $libelle, $qte, $prix, $img, $com);
+        }
+        return $article;
     }
 }
 

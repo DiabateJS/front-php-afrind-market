@@ -1,8 +1,9 @@
 <?php
 session_start();
+include_once "ligne_commande.model.php";
+include_once "lignes_commandes.model.php";
 $page = "articles";
-include_once "users.model.php";
-$userModel = new UsersModel();
+$ligneComModel = new LignesCommandesModel();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,32 +13,28 @@ $userModel = new UsersModel();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="bootstrap.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Vente en ligne - Profil</title>
+    <title>Vente en ligne - Ligne Commande</title>
 </head>
 <body>
 <div class="container">
 <?php
 include_once "entete.php";
+$idarticle = $_POST["idarticle"];
+$iduser = $_POST["iduser"];
+$qte = $_POST["qte"];
+$idcmd = "";
+$ligneCom = new LigneCommande(0, $idarticle, $iduser, $qte, $idcmd);
+$resultat = $ligneComModel->create($ligneCom);
 ?>
 <br>
-<h3>Profil</h3><br>
+Date : <?= date("d-m-Y H:i:s") ?><br>
 <?php
-$userId = $_GET["id"];
-$user = $userModel->selectById($userId)[0];
+if ($resultat->hasError == False){
 ?>
-Nom : <?= $user["nom"] ?><br>
-Prenom : <?= $user["prenom"] ?><br>
-Login : <?= $user["login"] ?><br>
-Email : <?= $user["email"] ?><br>
-Adresse : <?= $user["adresse"] ?><br>
-<?php
-if (isset($_SESSION["profil"]) && $_SESSION["profil"] == "admin"){
-?>
-Profil : <?= $user["profil"] ?>
+<h4>Article ajouté dans votre panier avec succes !</h4>
 <?php    
 }
 ?>
-<br>
 </div>
 <script src="bootstrap.js"></script>
 </body>
