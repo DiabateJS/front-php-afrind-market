@@ -48,7 +48,7 @@ class ArticleModel {
     }
 
     public function selectById($id){
-        $sql = "select id, libelle, qte, prix, img_link, commentaire from article where id = :id";
+        $sql = Constante::$SELECT_ARTICLE_BY_ID;
         $entete = array("id","libelle","qte","prix","img_link","commentaire");
         $dicoParam = array(
             "id" => $id

@@ -9,6 +9,7 @@ class Constante {
 
     public static $SELECT_ARTICLES = "select id, libelle, qte, prix, img_link, commentaire from am_articles";
     public static $CREATE_ARTICLE = "insert into am_articles(libelle, qte, prix, img_link, commentaire) values (:libelle, :qte, :prix, :img_link, :commentaire)";
+    public static $SELECT_ARTICLE_BY_ID = "select id, libelle, qte, prix, img_link, commentaire from am_articles where id = :id";
     public static $AUTH_USER = "select u.id,u.nom, u.prenom, u.email, u.adresse, p.libelle as profil from am_user u join am_profil p on u.idprofil = p.id where login = :login and pwd = :pwd";
     public static $SELECT_USERS = "select u.id, u.login, u.pwd, u.nom, u.prenom, u.email, u.adresse, p.libelle as profil from am_user u join am_profil p on u.idprofil = p.id";
     public static $SELECT_USER_BY_ID = "select u.login, u.pwd, u.nom, u.prenom, u.email, u.adresse, p.libelle as profil from am_user u join am_profil p on u.idprofil = p.id where u.id = :id";
