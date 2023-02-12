@@ -22,8 +22,11 @@ include_once "entete.php";
 $idarticle = $_POST["idarticle"];
 $iduser = $_POST["iduser"];
 $qte = $_POST["qte"];
+$libelle = "";
+$prix = "";
+$img = "";
 $idcmd = "";
-$ligneCom = new LigneCommande(0, $idarticle, $iduser, $qte, $idcmd);
+$ligneCom = new LigneCommande(0, $idarticle, $libelle, $prix, $img, $iduser, $qte, $idcmd);
 $resultat = $ligneComModel->create($ligneCom);
 ?>
 <br>
