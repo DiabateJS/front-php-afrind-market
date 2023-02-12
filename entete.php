@@ -9,7 +9,7 @@
   <?php 
   }else{
   ?>
-    <span><i class="fa fa-user" aria-hidden="true"></i> Utilisateur : Inconnu - <i class="fa fa-cart-plus" aria-hidden="true"></i> <a href="#">Panier</a> - <a href="connexion.php">Connexion</a></span><br>
+    <span><i class="fa fa-user" aria-hidden="true"></i> Utilisateur : Inconnu - <i class="fa fa-cart-plus" aria-hidden="true"></i> <a href="#">Panier</a> - <i class="fa fa-user-circle" aria-hidden="true"></i> <a href="connexion.php">Connexion</a></span><br>
   <?php
   }
   ?>
