@@ -1,6 +1,7 @@
 <?php
 include_once "bd.manager.php";
 include_once "commande.model.php";
+include_once "constante.php";
 
 class CommandesModel {
     private $bdManager;
@@ -10,14 +11,14 @@ class CommandesModel {
     }
 
     public function getCommandes(){
-        $sql = "select distinct c.id, c.libelle, c.datecmd, l.iduser, u.nom, u.prenom, u.email, u.adresse from commande c join ligne_commande l on c.id = l.idcmd join user u on l.iduser = u.id";
-        $entete = array("id","libelle","datecmd","nom","prenom","email","adresse");
+        $sql = Constante::$SELECT_COMMANDES;
+        $entete = array("id","libelle","datecmd","nom","prenom","email","adresse","telephone");
         $resultat = $this->bdManager->executeSelect($sql, $entete);
         return $resultat;
     }
 
     public function create($commande){
-        $sql = "insert into commande(libelle, datecmd) value (:libelle, :datecmd)";
+        $sql = Constante::$CREATE_COMMANDE;
         $dicoParam = array(
             "libelle" => $commande->libelle,
             "datecmd" => $commande->date
@@ -27,7 +28,7 @@ class CommandesModel {
     }
 
     public function selectByLibelle($libelle){
-        $sql = "select id, libelle, datecmd from commande where libelle = :libelle";
+        $sql = Constante::$SELECT_COMMANDE_BY_LIBELLE;
         $dicoParam = array(
             "libelle" => $libelle
         );

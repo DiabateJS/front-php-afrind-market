@@ -47,6 +47,7 @@ $commandes = $commandes->data;
                         <th>Login</th>
                         <th>Email</th>
                         <th>Adresse</th>
+                        <th>Telephone</th>
                         <th>Profil</th>
                     </tr>
                 </thead>
@@ -60,6 +61,7 @@ $commandes = $commandes->data;
                             <td><?= $users[$i]->login ?></td>
                             <td><?= $users[$i]->email ?></td>
                             <td><?= $users[$i]->adresse ?></td>
+                            <td><?= $users[$i]->telephone ?></td>
                             <td><?= $users[$i]->profil ?></td>
                         </tr>
                     <?php        
@@ -103,6 +105,7 @@ $commandes = $commandes->data;
                         <th>Prenom</th>
                         <th>Email</th>
                         <th>Adresse</th>
+                        <th>Telephone</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -116,6 +119,7 @@ $commandes = $commandes->data;
                         <td><?= $commandes[$i]["prenom"] ?></td>
                         <td><?= $commandes[$i]["email"] ?></td>
                         <td><?= $commandes[$i]["adresse"] ?></td>
+                        <td><?= $commandes[$i]["telephone"] ?></td>
                     </tr>
                 <?php        
                     }
