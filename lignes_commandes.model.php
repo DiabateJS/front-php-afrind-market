@@ -46,5 +46,18 @@ class LignesCommandesModel {
         }
         return $lignes;
     }
+
+    public function update($ligneCom){
+        $sql = Constante::$UPDATE_LIGNE_COM;
+        $dicoParam = array(
+            "idarticle" => $ligneCom->idarticle,
+            "iduser" => $ligneCom->iduser,
+            "qte" => $ligneCom->qte,
+            "idcmd" => $ligneCom->idcmd,
+            "id" => $ligneCom->id
+        );
+        $res = $this->bdManager->executePreparedQuery($sql, $dicoParam);
+        return $res;
+    }
 }
 ?>

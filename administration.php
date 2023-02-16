@@ -19,19 +19,23 @@ $page = "administration";
 include_once "entete.php";
 include_once "users.model.php";
 include_once "profils.model.php";
+include_once "commandes.model.php";
 $userModel = new UsersModel();
 $users = $userModel->getUsers();
 $profilModel = new ProfilsModel();
 $profils = $profilModel->getProfils();
+$commandesModel = new CommandesModel();
+$commandes = $commandesModel->getCommandes();
+$commandes = $commandes->data;
 ?>
 <div class="row">
-    <div class="col-4">
+    <div class="col-3">
         <ul>
             <li><a href="#" onclick="selectUserZone()">Utilisateurs</a></li>
             <li><a href="#" onclick="selectCommandeZone()">Commandes</a></li>
         </ul>
     </div>
-    <div class="col-8">
+    <div class="col-9">
         <div id="userZone">
             <h4>Gestion des utilisateurs</h4>
             <br>
@@ -89,6 +93,35 @@ $profils = $profilModel->getProfils();
         </div>
         <div id="commandeZone">
             <h4>Supervision des commandes</h4>
+            <br>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Libelle</th>
+                        <th>Date</th>
+                        <th>Nom</th>
+                        <th>Prenom</th>
+                        <th>Email</th>
+                        <th>Adresse</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                    for($i = 0 ; $i < count($commandes) ; $i++){
+                ?>
+                    <tr>
+                        <td><?= $commandes[$i]["libelle"] ?></td>
+                        <td><?= $commandes[$i]["datecmd"] ?></td>
+                        <td><?= $commandes[$i]["nom"] ?></td>
+                        <td><?= $commandes[$i]["prenom"] ?></td>
+                        <td><?= $commandes[$i]["email"] ?></td>
+                        <td><?= $commandes[$i]["adresse"] ?></td>
+                    </tr>
+                <?php        
+                    }
+                ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
