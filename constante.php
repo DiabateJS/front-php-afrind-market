@@ -18,9 +18,9 @@ class Constante {
     public static $CREATE_LIGNE_COM = "insert into ligne_commande(idarticle, iduser, qte) values (:idarticle, :iduser, :qte)";
     public static $SELECT_LIGNES_COMS_BY_USER_ID = "select l.id, l.idarticle, a.libelle, a.img_link, a.prix, l.qte from ligne_commande l join article a on l.idarticle = a.id where l.iduser = :iduser and l.idcmd IS null";
     public static $UPDATE_LIGNE_COM = "update ligne_commande set idarticle = :idarticle, iduser = :iduser, qte = :qte, idcmd = :idcmd where id = :id";
-    public static $SELECT_COM_BY_USER_ID = "select distinct c.id, c.libelle, c.datecmd from ligne_commande l join commande c on l.idcmd = c.id and l.iduser = :iduser";
-    public static $SELECT_COMMANDES = "select distinct c.id, c.libelle, c.datecmd, l.iduser, u.nom, u.prenom, u.email, u.adresse, u.telephone from commande c join ligne_commande l on c.id = l.idcmd join user u on l.iduser = u.id";
-    public static $CREATE_COMMANDE = "insert into commande(libelle, datecmd) value (:libelle, :datecmd)";
-    public static $SELECT_COMMANDE_BY_LIBELLE = "select id, libelle, datecmd from commande where libelle = :libelle";
+    public static $SELECT_COM_BY_USER_ID = "select distinct c.id, c.libelle, c.datecmd, c.statut from ligne_commande l join commande c on l.idcmd = c.id and l.iduser = :iduser";
+    public static $SELECT_COMMANDES = "select distinct c.id, c.libelle, c.datecmd, c.statut, l.iduser, u.nom, u.prenom, u.email, u.adresse, u.telephone from commande c join ligne_commande l on c.id = l.idcmd join user u on l.iduser = u.id";
+    public static $CREATE_COMMANDE = "insert into commande(libelle, datecmd, statut) value (:libelle, :datecmd, :statut)";
+    public static $SELECT_COMMANDE_BY_LIBELLE = "select id, libelle, datecmd, statut from commande where libelle = :libelle";
 }
 ?>
