@@ -101,12 +101,12 @@ $commandes = $commandes->data;
                     <tr>
                         <th>Libelle</th>
                         <th>Statut</th>
-                        <th>Date</th>
                         <th>Nom</th>
                         <th>Prenom</th>
                         <th>Email</th>
                         <th>Adresse</th>
                         <th>Telephone</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -116,12 +116,12 @@ $commandes = $commandes->data;
                     <tr>
                         <td><?= $commandes[$i]["libelle"] ?></td>
                         <td><?= $commandes[$i]["statut"] ?></td>
-                        <td><?= $commandes[$i]["datecmd"] ?></td>
                         <td><?= $commandes[$i]["nom"] ?></td>
                         <td><?= $commandes[$i]["prenom"] ?></td>
                         <td><?= $commandes[$i]["email"] ?></td>
                         <td><?= $commandes[$i]["adresse"] ?></td>
                         <td><?= $commandes[$i]["telephone"] ?></td>
+                        <td><a class="btn btn-success" href="statut_commande.php?libelle=<?= $commandes[$i]["libelle"] ?>">Changer Statut</a></td>
                     </tr>
                 <?php        
                     }

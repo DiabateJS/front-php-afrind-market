@@ -47,6 +47,20 @@ class LignesCommandesModel {
         return $lignes;
     }
 
+    public function selectByLibelleCom($libelleCom){
+        $sql = "select a.libelle as article,a.prix, l.qte,a.img_link from ligne_commande l join commande c on l.idcmd = c.id join article a on a.id = l.idarticle join user u on u.id = l.iduser where c.libelle = :libelle";
+        $entete = array("article","prix","qte","img_link");
+        $dicoParam = array(
+            "libelle" => $libelleCom
+        );
+        $data = [];
+        $resultat = $this->bdManager->executePreparedSelect($sql, $dicoParam, $entete);
+        if ($resultat->hasError == False){
+            $data = $resultat->data;
+        }
+        return $data;
+    }
+
     public function update($ligneCom){
         $sql = Constante::$UPDATE_LIGNE_COM;
         $dicoParam = array(
