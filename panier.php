@@ -3,6 +3,8 @@ session_start();
 $page = "articles";
 include_once "ligne_commande.model.php";
 include_once "lignes_commandes.model.php";
+include_once "commandes.model.php";
+
 $userId = isset($_GET["userid"]) ? $_GET["userid"] : "";
 $ligneComModel = new LignesCommandesModel();
 $lignes = $ligneComModel->selectByUserId($userId);
@@ -21,6 +23,13 @@ $lignes = $ligneComModel->selectByUserId($userId);
 <div class="container">
 <?php
 include_once "entete.php";
+if (count($lignes) == 0){
+?>
+<h4>Votre Panier est vide</h4>
+<?php
+} 
+else
+{
 ?>
 <br>
 <h4>Votre Panier</h4>
@@ -28,7 +37,6 @@ include_once "entete.php";
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>#</th>
             <th>Image</th>
             <th>Article</th>
             <th>Prix</th>
@@ -46,7 +54,6 @@ include_once "entete.php";
             $total += $montant; 
         ?>
         <tr>
-            <td><?= $lignes[$i]->id ?></td>
             <td><img src="<?= $lignes[$i]->img ?>" style="width:50px;height:50px;"></td>
             <td><?= $lignes[$i]->libelle ?></td>
             <td><?= $lignes[$i]->prix ?></td>
@@ -58,12 +65,48 @@ include_once "entete.php";
         }
         ?>
         <tr style="height:50px;">
-            <td colspan=5></td>
+            <td colspan=4></td>
             <td><b><?= $total ?></b></td>
-            <td></td>
+            <td><a href="traiter_panier.php?userid=<?= $userId ?>" class="btn btn-warning">Commander</a></td>
         </tr>
     </thead>
 </table>
+<?php
+}
+$commandesModel = new CommandesModel();
+$commandes = $commandesModel->selectByUserId($userId);
+if (count($commandes) == 0){
+?>
+<h4>Vous m'avez pas de commande</h4>
+<?php
+}else {
+?>
+<h4>Vos commandes</h4>
+<br>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Libelle</th>
+            <th>Statut</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        for ($i = 0 ; $i < count($commandes) ; $i++){ ?>
+            <tr>
+                <td><?= $commandes[$i]->date ?></td>
+                <td><?= $commandes[$i]->libelle ?></td>
+                <td><?= $commandes[$i]->statut ?></td>
+            </tr>
+        <?php
+        }
+        ?>
+    </tbody>
+</table>
+<?php
+}
+?>
 </div>
 <script src="bootstrap.min.js"></script>
 </body>

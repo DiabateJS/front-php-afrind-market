@@ -13,7 +13,7 @@ class UsersModel {
 
     public function isAuth($login, $password){
         $sql = Constante::$AUTH_USER;
-        $entete = array("id","email","nom","prenom","adresse","profil");
+        $entete = array("id","email","nom","prenom","adresse","telephone","profil");
         $dicoParam = array(
             "login" => $login,
             "pwd" => $password
@@ -24,7 +24,7 @@ class UsersModel {
 
     public function getUsers(){
         $sql = Constante::$SELECT_USERS;
-        $entete = array("id", "login", "pwd","nom","prenom","email","adresse","profil");
+        $entete = array("id", "login", "pwd","nom","prenom","email","adresse","telephone","profil");
         $resultat = $this->bdManager->executeSelect($sql, $entete);
         $users = [];
         $user = null;
@@ -38,8 +38,9 @@ class UsersModel {
                 $prenom = $res[$i]["prenom"];
                 $email = $res[$i]["email"];
                 $adresse = $res[$i]["adresse"];
+                $telephone = $res[$i]["telephone"];
                 $profil = $res[$i]["profil"];
-                $user = new User($id, $login, $pwd, $nom, $prenom, $email,$adresse,$profil);
+                $user = new User($id, $login, $pwd, $nom, $prenom, $email,$adresse, $telephone, $profil);
                 $users[] = $user;
             }
         }
@@ -48,9 +49,19 @@ class UsersModel {
 
     public function selectById($id){
         $sql = Constante::$SELECT_USER_BY_ID;
-        $entete = array("login", "pwd","nom","prenom","email","adresse","profil");
+        $entete = array("login", "pwd","nom","prenom","email","adresse","telephone","profil");
         $dicoParam = array(
             "id" => $id
+        );
+        $resultat = $this->bdManager->executePreparedSelect($sql, $dicoParam, $entete);
+        return $resultat->data;
+    }
+
+    public function selectUserByLibelleCom($libelleCom){
+        $sql = Constante::$SELECT_USER_BY_LIBELLE_COMMANDE;
+        $entete = array("id","nom","prenom","email","adresse","telephone");
+        $dicoParam = array(
+            "libelle" => $libelleCom
         );
         $resultat = $this->bdManager->executePreparedSelect($sql, $dicoParam, $entete);
         return $resultat->data;
@@ -65,6 +76,7 @@ class UsersModel {
             "prenom" => $user->prenom,
             "email" => $user->email,
             "adresse" => $user->adresse,
+            "telephone" => $user->telephone,
             "profil" => $user->profil
         );
         $resultat = $this->bdManager->executePreparedQuery($sql, $dicoParam);

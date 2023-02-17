@@ -46,5 +46,32 @@ class LignesCommandesModel {
         }
         return $lignes;
     }
+
+    public function selectByLibelleCom($libelleCom){
+        $sql = Constante::$SELECT_LIGNE_COM_BY_LIBELLE_COM;
+        $entete = array("article","prix","qte","img_link");
+        $dicoParam = array(
+            "libelle" => $libelleCom
+        );
+        $data = [];
+        $resultat = $this->bdManager->executePreparedSelect($sql, $dicoParam, $entete);
+        if ($resultat->hasError == False){
+            $data = $resultat->data;
+        }
+        return $data;
+    }
+
+    public function update($ligneCom){
+        $sql = Constante::$UPDATE_LIGNE_COM;
+        $dicoParam = array(
+            "idarticle" => $ligneCom->idarticle,
+            "iduser" => $ligneCom->iduser,
+            "qte" => $ligneCom->qte,
+            "idcmd" => $ligneCom->idcmd,
+            "id" => $ligneCom->id
+        );
+        $res = $this->bdManager->executePreparedQuery($sql, $dicoParam);
+        return $res;
+    }
 }
 ?>

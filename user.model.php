@@ -7,9 +7,10 @@ class User {
     public $prenom;
     public $email;
     public $adresse;
+    public $telephone;
     public $profil;
 
-    function __construct($id, $login, $pwd, $nom, $prenom, $email, $adresse, $profil)
+    function __construct($id, $login, $pwd, $nom, $prenom, $email, $adresse, $telephone, $profil)
     {
         $this->id = $id;
         $this->login = $login;
@@ -18,6 +19,7 @@ class User {
         $this->prenom = $prenom;
         $this->email = $email;
         $this->adresse = $adresse;
+        $this->telephone = $telephone;
         $this->profil = $profil;
     }
 }
