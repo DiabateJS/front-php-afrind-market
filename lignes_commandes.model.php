@@ -48,7 +48,7 @@ class LignesCommandesModel {
     }
 
     public function selectByLibelleCom($libelleCom){
-        $sql = "select a.libelle as article,a.prix, l.qte,a.img_link from ligne_commande l join commande c on l.idcmd = c.id join article a on a.id = l.idarticle join user u on u.id = l.iduser where c.libelle = :libelle";
+        $sql = Constante::$SELECT_LIGNE_COM_BY_LIBELLE_COM;
         $entete = array("article","prix","qte","img_link");
         $dicoParam = array(
             "libelle" => $libelleCom

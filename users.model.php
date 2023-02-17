@@ -58,7 +58,7 @@ class UsersModel {
     }
 
     public function selectUserByLibelleCom($libelleCom){
-        $sql = "select distinct u.id, u.nom, u.prenom, u.email, u.adresse, u.telephone from commande c join ligne_commande l on c.id = l.idcmd join user u on u.id = l.iduser where c.libelle = :libelle";
+        $sql = Constante::$SELECT_USER_BY_LIBELLE_COMMANDE;
         $entete = array("id","nom","prenom","email","adresse","telephone");
         $dicoParam = array(
             "libelle" => $libelleCom
