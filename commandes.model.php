@@ -22,7 +22,7 @@ class CommandesModel {
         $dicoParam = array(
             "libelle" => $commande->libelle,
             "datecmd" => $commande->date,
-            "statut" => "EN_COURS"
+            "statut" => $commande->statut
         );
         $resultat = $this->bdManager->executePreparedQuery($sql, $dicoParam);
         return $resultat;
