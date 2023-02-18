@@ -38,11 +38,13 @@ Montant commande : <b><?= $montant ?></b>
 <br>
 <br>
 <b>Moyen de paiement</b> <br>
+<form method="POST" action="traiter_statut_a_regler.php">
+<input type="hidden" name="id_cmd" value="<?= $commande->id ?>" >
 <input type="hidden" name="montant" value="<?= $montant ?>" >
 <br>
-<input type="radio" name="moyen_paiement" checked> Espece <br>
-<input type="radio" name="moyen_paiement"> Mobile Money <br>
-<input type="radio" name="moyen_paiement"> Virement bancaire <br>
+<input type="radio" name="moyen_paiement" value="espece" checked> Espece <br>
+<input type="radio" name="moyen_paiement" value="mobile_money"> Mobile Money <br>
+<input type="radio" name="moyen_paiement" value="virement"> Virement bancaire <br>
 <br>
 <b>Preuve de paiement</b><br>
 <br>
@@ -53,7 +55,8 @@ Montant commande : <b><?= $montant ?></b>
 <input type="text" name="ref_paiement">
 <br>
 <br>
-<button class="btn btn-warning">Valider</button>
+<input type="submit" class="btn btn-warning" value="Valider">
+</form>
 </div>
 <div class="col-6">
 <b>Client</b><br>

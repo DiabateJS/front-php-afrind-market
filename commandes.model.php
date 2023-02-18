@@ -49,6 +49,25 @@ class CommandesModel {
         return $commande;
     }
 
+    public function selectById($id){
+        $sql = Constante::$SELECT_COMMANDE_BY_ID;
+        $dicoParam = array(
+            "id" => $id
+        );
+        $entete = array("libelle","montant","datecmd","statut");
+        $resultat = $this->bdManager->executePreparedSelect($sql, $dicoParam, $entete);
+        $res = $resultat->data;
+        $commande = null;
+        if (count($res) > 0){
+            $libelle = $res[0]["libelle"];
+            $montant = $res[0]["montant"];
+            $datecmd = $res[0]["datecmd"];
+            $statut = $res[0]["statut"];
+            $commande = new Commande($id,$libelle,$datecmd,$statut,$montant);
+        }
+        return $commande;
+    }
+
     public function selectByUserId($userId){
         $sql = Constante::$SELECT_COM_BY_USER_ID;
         $entete = array("id","libelle","montant","datecmd","statut");
