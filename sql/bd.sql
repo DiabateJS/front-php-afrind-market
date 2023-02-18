@@ -137,6 +137,7 @@ ALTER TABLE `user` ADD `nom` VARCHAR(50) NOT NULL AFTER `pwd`, ADD `prenom` VARC
 CREATE TABLE `commande` (
   `id` int NOT NULL,
   `libelle` varchar(50) NOT NULL,
+  `montant` int(11) NOT NULL,
   `datecmd` varchar(20) NOT NULL,
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -151,6 +152,16 @@ CREATE TABLE `ligne_commande` (
   `idarticle` int NOT NULL,
   `iduser` int NOT NULL,
   `qte` int NOT NULL,
+  `idcmd` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE  `transaction` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `reference` varchar(30) NOT NULL,
+  `date` varchar(20) NOT NULL,
+  `type` varchar(20) NOT NULL,
+  `montant` int NOT NULL,
   `idcmd` int NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
