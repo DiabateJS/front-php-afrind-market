@@ -88,6 +88,7 @@ if (count($commandes) == 0){
         <tr>
             <th>Date</th>
             <th>Libelle</th>
+            <th>Montant</th>
             <th>Statut</th>
         </tr>
     </thead>
@@ -97,6 +98,7 @@ if (count($commandes) == 0){
             <tr>
                 <td><?= $commandes[$i]->date ?></td>
                 <td><?= $commandes[$i]->libelle ?></td>
+                <td><?= $commandes[$i]->montant ?></td>
                 <td><?= $commandes[$i]->statut ?></td>
             </tr>
         <?php

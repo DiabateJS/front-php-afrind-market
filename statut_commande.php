@@ -23,6 +23,7 @@ $libelle_cmd = $_GET["libelle"];
 $commandesModel = new CommandesModel();
 $commande = $commandesModel->selectByLibelle($libelle_cmd);
 $statut = $commande->statut;
+$montant = $commandesModel->getMontantWithCmdLibelle($libelle_cmd);
 ?>
 <br>
 <?php
@@ -32,7 +33,12 @@ if ($statut == "A_REGLER"){
 <div class="col-6">
 <h5> Reglement de la commande <?= $libelle_cmd ?></h5>
 <br>
+<br>
+Montant commande : <b><?= $montant ?></b>
+<br>
+<br>
 <b>Moyen de paiement</b> <br>
+<input type="hidden" name="montant" value="<?= $montant ?>" >
 <br>
 <input type="radio" name="moyen_paiement" checked> Espece <br>
 <input type="radio" name="moyen_paiement"> Mobile Money <br>

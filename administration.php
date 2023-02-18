@@ -100,6 +100,7 @@ $commandes = $commandes->data;
                 <thead>
                     <tr>
                         <th>Libelle</th>
+                        <th>Montant</th>
                         <th>Statut</th>
                         <th>Nom</th>
                         <th>Prenom</th>
@@ -115,6 +116,7 @@ $commandes = $commandes->data;
                 ?>
                     <tr>
                         <td><?= $commandes[$i]["libelle"] ?></td>
+                        <td><?= $commandes[$i]["montant"] ?></td>
                         <td><?= $commandes[$i]["statut"] ?></td>
                         <td><?= $commandes[$i]["nom"] ?></td>
                         <td><?= $commandes[$i]["prenom"] ?></td>

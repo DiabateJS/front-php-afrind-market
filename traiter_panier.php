@@ -35,7 +35,8 @@ Adresse de facturation : <?= $user["adresse"] ?><br>
 <?php
 //1. Créer une commande
 $statut = "A_REGLER";
-$commande = new Commande(0,$libelle,$date,$statut);
+$montant = 0;
+$commande = new Commande(0,$libelle,$date,$statut,$montant);
 $commandeModel = new CommandesModel();
 $res = $commandeModel->create($commande);
 //Récupérer l'identifiant de la commande créee
@@ -50,6 +51,11 @@ for ($i = 0 ; $i < count ($lignes) ; $i++){
     $ligne->idcmd = $idcmd;
     $lignesComModel->update($ligne);
 }
+//3. Mise à jour de la commande avec le montant de la commande
+$commandesModel = new CommandesModel();
+$montant = $commandesModel->getMontantWithCmdLibelle($libelle);
+$commande->montant = $montant;
+$commandesModel->update($commande);
 ?>
 <br>
 <h5>Votre commande a été crée avec succes !</h5>
