@@ -39,7 +39,7 @@ class ProfilsModel {
     }
 
     public function delete($idProfil){
-        $sql = "delete from profil where id = :id";
+        $sql = Constante::$DELETE_PROFIL;
         $dicoParam = array(
             "id" => $idProfil
         );
