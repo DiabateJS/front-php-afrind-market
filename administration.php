@@ -72,26 +72,44 @@ $commandes = $commandes->data;
             <br>
             <h4>Gestion des profils utilisateurs</h4>
             <br>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Libelle</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                        for ($i = 0 ; $i < count($profils) ; $i++){
-                    ?>
+            <div id="showProfils">
+                <button class="btn btn-success" onclick="showNewProfil()">Créer Profil</button>
+                <br>
+                <table class="table table-striped">
+                    <thead>
                         <tr>
-                            <td><?= $profils[$i]->id ?></td>
-                            <td><?= $profils[$i]->libelle ?></td>
+                            <th>#</th>
+                            <th>Libelle</th>
+                            <th>Actions</th>
                         </tr>
-                    <?php        
-                    }
-                    ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php
+                            for ($i = 0 ; $i < count($profils) ; $i++){
+                        ?>
+                            <tr>
+                                <td><?= $profils[$i]->id ?></td>
+                                <td><?= $profils[$i]->libelle ?></td>
+                                <td>
+                                    <button class="btn btn-warning">Modifier</button>
+                                    <a href="traiter_nouveau_profil.php?operation=delete&id=<?= $profils[$i]->id ?>" class="btn btn-danger">Supprimer</button>
+                                </td>
+                            </tr>
+                        <?php        
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+            <div id="newProfil">
+                <form action="traiter_nouveau_profil.php" method="POST">
+                    <div class="mb-3">
+                        <label for="libelle_profil" class="form-label">Libellé Profil</label>
+                        <input type="text" class="form-control" name="libelle_profil" id="libelle_profil" required>
+                    </div>
+                    <input type="submit" class="btn btn-success" value="Créer">
+                </form>
+            </div>
         </div>
         <div id="commandeZone">
             <h4>Supervision des commandes</h4>
@@ -140,11 +158,16 @@ $commandes = $commandes->data;
     selectUserZone();
     function selectUserZone(){
         document.getElementById("userZone").style.display = "block";
+        document.getElementById("newProfil").style.display = "none";
         document.getElementById("commandeZone").style.display = "none";
     }
     function selectCommandeZone(){
         document.getElementById("userZone").style.display = "none";
         document.getElementById("commandeZone").style.display = "block";
+    }
+    function showNewProfil(){
+        document.getElementById("showProfils").style.display = "none";
+        document.getElementById("newProfil").style.display = "block";
     }
 </script>
 </body>

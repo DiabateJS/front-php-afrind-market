@@ -28,5 +28,23 @@ class ProfilsModel {
         }
         return $profils;
     }
+
+    public function create($profil){
+        $sql = Constante::$CREATE_PROFIL;
+        $dicoParam = array(
+            "libelle" => $profil->libelle
+        );
+        $resultat = $this->bdManager->executePreparedQuery($sql, $dicoParam);
+        return $resultat;
+    }
+
+    public function delete($idProfil){
+        $sql = "delete from profil where id = :id";
+        $dicoParam = array(
+            "id" => $idProfil
+        );
+        $resultat = $this->bdManager->executePreparedQuery($sql, $dicoParam);
+        return $resultat;
+    }
 }
 ?>

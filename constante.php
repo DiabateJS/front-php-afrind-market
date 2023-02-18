@@ -17,6 +17,7 @@ class Constante {
     public static $SELECT_USER_BY_LIBELLE_COMMANDE = "select distinct u.id, u.nom, u.prenom, u.email, u.adresse, u.telephone from commande c join ligne_commande l on c.id = l.idcmd join user u on u.id = l.iduser where c.libelle = :libelle";
     public static $CREATE_USER = "insert into user(login, pwd, nom, prenom, email, adresse, telephone, idprofil) values (:login, :pwd, :nom, :prenom, :email, :adresse, :telephone, (select id from profil where libelle = :profil))";
     public static $SELECT_PROFILS = "select id, libelle from profil";
+    public static $CREATE_PROFIL = "insert into profil(libelle) values (:libelle)";
     public static $CREATE_LIGNE_COM = "insert into ligne_commande(idarticle, iduser, qte) values (:idarticle, :iduser, :qte)";
     public static $SELECT_LIGNES_COMS_BY_USER_ID = "select l.id, l.idarticle, a.libelle, a.img_link, a.prix, l.qte from ligne_commande l join article a on l.idarticle = a.id where l.iduser = :iduser and (l.idcmd IS null OR l.idcmd = 0)";
     public static $UPDATE_LIGNE_COM = "update ligne_commande set idarticle = :idarticle, iduser = :iduser, qte = :qte, idcmd = :idcmd where id = :id";
