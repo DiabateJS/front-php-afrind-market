@@ -27,10 +27,10 @@ $article = $articleModel->selectById($idarticle);
 $userid = $_SESSION["userid"];
 ?>
 <div class="row">
-    <div class="col-4">
+    <div class="col-4 col-md-4 col-xs-12">
         <img src="<?= $article->img_link ?>" style="max-width:250px;height:250px" />
     </div>
-    <div class="col-8">
+    <div class="col-8 col-md-8 col-xs-12">
         <?= $article->libelle ?> <br>
         <?= $article->prix ?> F CFA<br>
         <form method="POST" action="traiter_commande.php">
