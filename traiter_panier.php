@@ -34,7 +34,8 @@ Prenom : <?= $user["prenom"] ?><br>
 Adresse de facturation : <?= $user["adresse"] ?><br>
 <?php
 //1. Créer une commande
-$commande = new Commande(0,$libelle,$date);
+$statut = "A_REGLER";
+$commande = new Commande(0,$libelle,$date,$statut);
 $commandeModel = new CommandesModel();
 $res = $commandeModel->create($commande);
 //Récupérer l'identifiant de la commande créee
