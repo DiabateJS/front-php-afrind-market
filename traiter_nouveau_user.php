@@ -19,7 +19,7 @@ include_once "users.model.php";
 <?php
     include_once "entete.php";
     $usersModel = new UsersModel();
-    if (isset($_POST)){
+    if (isset($_POST) && isset($_POST["nom_user"])){
         $nom = $_POST["nom_user"];
         $prenom = $_POST["prenom_user"];
         $email = $_POST["email_user"];
