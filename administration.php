@@ -39,36 +39,88 @@ $commandes = $commandes->data;
         <div id="userZone">
             <h4>Gestion des utilisateurs</h4>
             <br>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Nom</th>
-                        <th>Prenom</th>
-                        <th>Login</th>
-                        <th>Email</th>
-                        <th>Adresse</th>
-                        <th>Telephone</th>
-                        <th>Profil</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                        for($i = 0 ; $i < count($users) ; $i++){
-                    ?>
+            <div id="showUsers">
+                <br>
+                <button class="btn btn-success" onclick="showNewUser()">Nouveau</button><br>
+                <table class="table table-striped">
+                    <thead>
                         <tr>
-                            <td><?= $users[$i]->nom ?></td>
-                            <td><?= $users[$i]->prenom ?></td>
-                            <td><?= $users[$i]->login ?></td>
-                            <td><?= $users[$i]->email ?></td>
-                            <td><?= $users[$i]->adresse ?></td>
-                            <td><?= $users[$i]->telephone ?></td>
-                            <td><?= $users[$i]->profil ?></td>
+                            <th>Nom</th>
+                            <th>Prenom</th>
+                            <th>Login</th>
+                            <th>Email</th>
+                            <th>Adresse</th>
+                            <th>Telephone</th>
+                            <th>Profil</th>
                         </tr>
-                    <?php        
-                        }
-                    ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php
+                            for($i = 0 ; $i < count($users) ; $i++){
+                        ?>
+                            <tr>
+                                <td><?= $users[$i]->nom ?></td>
+                                <td><?= $users[$i]->prenom ?></td>
+                                <td><?= $users[$i]->login ?></td>
+                                <td><?= $users[$i]->email ?></td>
+                                <td><?= $users[$i]->adresse ?></td>
+                                <td><?= $users[$i]->telephone ?></td>
+                                <td><?= $users[$i]->profil ?></td>
+                            </tr>
+                        <?php        
+                            }
+                        ?>
+                    </tbody>
+                </table>
+                <br>
+            </div>
+            <div id="newUser">
+                <h5>Création Utilisateur</h5>
+                <br>
+                <form action="traiter_nouveau_user.php" method="POST">
+                    <div class="mb-3">
+                        <label for="nom_user" class="form-label">Nom</label>
+                        <input type="text" class="form-control" name="nom_user" id="nom_user" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="prenom_user" class="form-label">Prenom</label>
+                        <input type="text" class="form-control" name="prenom_user" id="prenom_user" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email_user" class="form-label">Email</label>
+                        <input type="text" class="form-control" name="email_user" id="email_user" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="login_user" class="form-label">Login</label>
+                        <input type="text" class="form-control" name="login_user" id="login_user" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password_user" class="form-label">Password</label>
+                        <input type="password" class="form-control" name="password_user" id="password_user" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="adresse_user" class="form-label">Adresse</label>
+                        <input type="text" class="form-control" name="adresse_user" id="adresse_user" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="telephone_user" class="form-label">Telephone</label>
+                        <input type="text" class="form-control" name="telephone_user" id="telephone_user" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="profil_user" class="form-label">Profil</label>
+                        <select class="form-control" name="profil_user" id="profil_user" required>
+                            <?php
+                                for ($i = 0 ; $i < count($profils) ; $i++){
+                            ?>
+                                <option value="<?= $profils[$i]->libelle ?>"><?= strtoupper($profils[$i]->libelle) ?></option>
+                            <?php
+                                }
+                            ?>    
+                        </select>
+                    </div>
+                    <input type="submit" class="btn btn-success" value="Créer">
+                </form>
+            </div>
             <br>
             <h4>Gestion des profils utilisateurs</h4>
             <br>
@@ -159,6 +211,7 @@ $commandes = $commandes->data;
     function selectUserZone(){
         document.getElementById("userZone").style.display = "block";
         document.getElementById("newProfil").style.display = "none";
+        document.getElementById("newUser").style.display = "none";
         document.getElementById("commandeZone").style.display = "none";
     }
     function selectCommandeZone(){
@@ -168,6 +221,10 @@ $commandes = $commandes->data;
     function showNewProfil(){
         document.getElementById("showProfils").style.display = "none";
         document.getElementById("newProfil").style.display = "block";
+    }
+    function showNewUser(){
+        document.getElementById("showUsers").style.display = "none";
+        document.getElementById("newUser").style.display = "block";
     }
 </script>
 </body>
