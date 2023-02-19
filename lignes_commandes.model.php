@@ -23,7 +23,7 @@ class LignesCommandesModel {
 
     public function selectByUserId($userId){
         $sql = Constante::$SELECT_LIGNES_COMS_BY_USER_ID;
-        $entete = array("id","idarticle","libelle","img_link","prix","qte");
+        $entete = array("idarticle","libelle","img_link","prix","qte");
         $dicoParam = array(
             "iduser" => $userId
         );
@@ -49,7 +49,7 @@ class LignesCommandesModel {
 
     public function selectByLibelleCom($libelleCom){
         $sql = Constante::$SELECT_LIGNE_COM_BY_LIBELLE_COM;
-        $entete = array("article","prix","qte","img_link");
+        $entete = array("idarticle","article","prix","qte","img_link");
         $dicoParam = array(
             "libelle" => $libelleCom
         );
