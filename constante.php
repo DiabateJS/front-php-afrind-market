@@ -13,6 +13,7 @@ class Constante {
     public static $UPDATE_ARTICLE = "update article set libelle = :libelle, qte = :qte, prix = :prix, img_link = :img_link, commentaire = :commentaire where id = :id";
     public static $AUTH_USER = "select u.id,u.nom, u.prenom, u.email, u.adresse, u.telephone, p.libelle as profil from user u join profil p on u.idprofil = p.id where login = :login and pwd = :pwd";
     public static $SELECT_USERS = "select u.id, u.login, u.pwd, u.nom, u.prenom, u.email, u.adresse, u.telephone, p.libelle as profil from user u join profil p on u.idprofil = p.id";
+    public static $SELECT_LIVREURS = "select u.id, u.login, u.pwd, u.nom, u.prenom, u.email, u.adresse, u.telephone, p.libelle as profil from user u join profil p on u.idprofil = p.id where p.libelle = 'livreur'";
     public static $SELECT_USER_BY_ID = "select u.login, u.pwd, u.nom, u.prenom, u.email, u.adresse, u.telephone, p.libelle as profil from user u join profil p on u.idprofil = p.id where u.id = :id";
     public static $SELECT_USER_BY_LIBELLE_COMMANDE = "select distinct u.id, u.nom, u.prenom, u.email, u.adresse, u.telephone from commande c join ligne_commande l on c.id = l.idcmd join user u on u.id = l.iduser where c.libelle = :libelle";
     public static $CREATE_USER = "insert into user(login, pwd, nom, prenom, email, adresse, telephone, idprofil) values (:login, :pwd, :nom, :prenom, :email, :adresse, :telephone, (select id from profil where libelle = :profil))";
@@ -32,6 +33,6 @@ class Constante {
     public static $SELECT_MONTANT_COMMANDE_BY_LIB_CMD = "select sum(l.qte * a.prix) as montant from ligne_commande l join article a on l.idarticle = a.id join commande c on l.idcmd = c.id where c.libelle = :libelle";
     public static $UPDATE_COMMANDE = "update commande set montant = :montant, datecmd = :datecmd, statut = :statut where libelle = :libelle";
     public static $CREATE_TRANSACTION = "insert into transaction(reference, date, type, montant, idcmd) values (:reference, :date, :type, :montant, :idcmd)";
-
+    public static $CREATE_LIVRAISON_CMD = "insert into livrer_commande(idcmd, idlivreur, date) values (:idcmd, :idlivreur, :date)";
 }
 ?>
