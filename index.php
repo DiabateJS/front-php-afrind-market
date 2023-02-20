@@ -1,7 +1,8 @@
 <?php
 session_start();
 include_once "articles.model.php";
-$page = "articles";
+$profil = isset($_SESSION["profil"]) ? $_SESSION["profil"] : "";
+$page = $profil == "livreur" ? "livraisons" : "articles";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,6 +22,9 @@ $page = "articles";
 include "entete.php";
 ?>
 <br>
+<?php
+if ($page == "articles"){
+?>
 <div class="articles">
 <?php
 for ($i = 0 ; $i < count($articles) ; $i++){ 
@@ -44,6 +48,60 @@ for ($i = 0 ; $i < count($articles) ; $i++){
 </div>
 <br>
 </div>
+<?php    
+}
+if ($page == "livraisons"){
+$userid = $_SESSION["userid"];
+include_once "livraisons.model.php";
+$livraisonsModel = new LivraisonsModel();
+$livraisons = $livraisonsModel->getCmdAlivrerByUserId($userid);
+?>
+<h4>Vos commandes</h4>
+<br>
+<h5>Commande à livrer</h5>
+<br>
+Vous avez <?= count($livraisons) ?> commande(s) à livrer<br>
+<br>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Ref</th>
+            <th>Montant</th>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Adresse</th>
+            <th>Telephone</th>
+            <th>Date commande</th>
+            <th>Date affectation</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+        <?php
+            for ($i = 0 ; $i < count($livraisons) ; $i++){
+        ?>
+            <tr>
+                <td><?= $livraisons[$i]["libelle"] ?></td>
+                <td><?= $livraisons[$i]["montant"] ?></td>
+                <td><?= $livraisons[$i]["nom_client"] ?></td>
+                <td><?= $livraisons[$i]["prenom_client"] ?></td>
+                <td><?= $livraisons[$i]["adresse_client"] ?></td>
+                <td><?= $livraisons[$i]["telephone_client"] ?></td>
+                <td><?= $livraisons[$i]["datecmd"] ?></td>
+                <td><?= $livraisons[$i]["date_affectation"] ?></td>
+                <td><button class="btn btn-warning">Livrer</button></td>
+            </tr>
+        <?php        
+            }
+        ?>
+    <tbody>
+    </tbody>
+</table>
+<br>
+<h5>Commandes livrées</h5>
+<br>
+<?php
+}
+?>
 <script src="bootstrap.js"></script>
 </body>
 </html>
