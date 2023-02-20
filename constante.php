@@ -33,7 +33,11 @@ class Constante {
     public static $SELECT_MONTANT_COMMANDE_BY_LIB_CMD = "select sum(l.qte * a.prix) as montant from ligne_commande l join article a on l.idarticle = a.id join commande c on l.idcmd = c.id where c.libelle = :libelle";
     public static $UPDATE_COMMANDE = "update commande set montant = :montant, datecmd = :datecmd, statut = :statut where libelle = :libelle";
     public static $SELECT_COMMANDE_A_LIVRER_BY_LIVREUR_ID = "select distinct l.id, l.idcmd, c.libelle, lc.iduser as idclient, u.nom as nom_client, u.prenom as prenom_client, u.adresse as adresse_client, u.telephone as telephone_client, c.montant, c.datecmd, l.date as date_affectation from livrer_commande l join commande c on l.idcmd = c.id join ligne_commande lc on lc.idcmd = l.idcmd join user u on u.id = lc.iduser where c.statut = 'A_LIVRER' and l.idlivreur = :userid";
+    public static $SELECT_COMMANDE_LIVRER_BY_LIVREUR_ID = "select distinct l.id, l.idcmd, c.libelle, lc.iduser as idclient, u.nom as nom_client, u.prenom as prenom_client, u.adresse as adresse_client, u.telephone as telephone_client, c.montant, c.datecmd, l.date as date_affectation, l.date_livraison from livrer_commande l join commande c on l.idcmd = c.id join ligne_commande lc on lc.idcmd = l.idcmd join user u on u.id = lc.iduser where c.statut = 'LIVRER' and l.idlivreur = :userid";
     public static $CREATE_TRANSACTION = "insert into transaction(reference, date, type, montant, idcmd) values (:reference, :date, :type, :montant, :idcmd)";
     public static $CREATE_LIVRAISON_CMD = "insert into livrer_commande(idcmd, idlivreur, date) values (:idcmd, :idlivreur, :date)";
+    public static $SELECT_LIVRAISON_BY_ID = "select idcmd, idlivreur, date as date_affectation from livrer_commande where id = :id";
+    public static $UPDATE_LIVRAISON = "update livrer_commande set idcmd = :idcmd, idlivreur = :idlivreur, date = :date_affectation, date_livraison = :date_livraison where id = :id";
+
 }
 ?>

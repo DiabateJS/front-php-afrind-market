@@ -62,6 +62,9 @@ $livraisons = $livraisonsModel->getCmdAlivrerByUserId($userid);
 <br>
 Vous avez <?= count($livraisons) ?> commande(s) à livrer<br>
 <br>
+<?php
+if (count($livraisons) > 0){
+?>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -88,7 +91,7 @@ Vous avez <?= count($livraisons) ?> commande(s) à livrer<br>
                 <td><?= $livraisons[$i]["telephone_client"] ?></td>
                 <td><?= $livraisons[$i]["datecmd"] ?></td>
                 <td><?= $livraisons[$i]["date_affectation"] ?></td>
-                <td><button class="btn btn-warning">Livrer</button></td>
+                <td><a href="traiter_statut_livrer.php?idlivraison=<?= $livraisons[$i]["id"] ?>" class="btn btn-warning">Livrer</a></td>
             </tr>
         <?php        
             }
@@ -96,10 +99,52 @@ Vous avez <?= count($livraisons) ?> commande(s) à livrer<br>
     <tbody>
     </tbody>
 </table>
+<?php    
+}
+?>
 <br>
 <h5>Commandes livrées</h5>
 <br>
 <?php
+$commandes_livrer = $livraisonsModel->getCmdLivrerByUserId($userid);
+if (count($commandes_livrer) > 0){
+?>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Ref</th>
+            <th>Montant</th>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Adresse</th>
+            <th>Telephone</th>
+            <th>Date commande</th>
+            <th>Date affectation</th>
+            <th>Date livraison</th>
+        </tr>
+    </thead>
+        <?php
+            for ($i = 0 ; $i < count($commandes_livrer) ; $i++){
+        ?>
+            <tr>
+                <td><?= $commandes_livrer[$i]["libelle"] ?></td>
+                <td><?= $commandes_livrer[$i]["montant"] ?></td>
+                <td><?= $commandes_livrer[$i]["nom_client"] ?></td>
+                <td><?= $commandes_livrer[$i]["prenom_client"] ?></td>
+                <td><?= $commandes_livrer[$i]["adresse_client"] ?></td>
+                <td><?= $commandes_livrer[$i]["telephone_client"] ?></td>
+                <td><?= $commandes_livrer[$i]["datecmd"] ?></td>
+                <td><?= $commandes_livrer[$i]["date_affectation"] ?></td>
+                <td><?= $commandes_livrer[$i]["date_livraison"] ?></td>
+            </tr>
+        <?php        
+        }
+        ?>
+    <tbody>
+    </tbody>
+</table>
+<?php
+}
 }
 ?>
 <script src="bootstrap.js"></script>
