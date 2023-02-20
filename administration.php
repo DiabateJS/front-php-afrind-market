@@ -182,12 +182,28 @@ $commandes = $commandes->data;
                 </thead>
                 <tbody>
                 <?php
+                    $statut = "";
+                    $class = "";
                     for($i = 0 ; $i < count($commandes) ; $i++){
-                ?>
+                        $statut = $commandes[$i]["statut"];
+                        $class = "badge ";
+                        if ($statut == "A_REGLER"){
+                            $class .="text-bg-primary";
+                        }
+                        if ($statut == "REGLE"){
+                            $class .="text-bg-success";
+                        }
+                        if ($statut == "A_LIVRER"){
+                            $class .="text-bg-warning";
+                        }
+                        if ($statut == "LIVRER"){
+                            $class .="text-bg-info";
+                        }
+                    ?>
                     <tr>
                         <td><?= $commandes[$i]["libelle"] ?></td>
                         <td><?= $commandes[$i]["montant"] ?></td>
-                        <td><?= $commandes[$i]["statut"] ?></td>
+                        <td><span class="<?= $class ?>"><?= $statut ?></span></td>
                         <td><?= $commandes[$i]["nom"] ?></td>
                         <td><?= $commandes[$i]["prenom"] ?></td>
                         <td><?= $commandes[$i]["email"] ?></td>

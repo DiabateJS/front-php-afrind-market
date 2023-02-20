@@ -47,6 +47,31 @@ class UsersModel {
         return $users;
     }
 
+    public function getLivreurs(){
+        $sql = Constante::$SELECT_LIVREURS;
+        $entete = array("id", "login", "pwd","nom","prenom","email","adresse","telephone","profil");
+        $resultat = $this->bdManager->executeSelect($sql, $entete);
+        $users = [];
+        $user = null;
+        if ($resultat->hasError == False){
+            $res = $resultat->data;
+            for ($i = 0 ; $i < count($res); $i++){  
+                $id = $res[$i]["id"];
+                $login = $res[$i]["login"];
+                $pwd = $res[$i]["pwd"];
+                $nom = $res[$i]["nom"];
+                $prenom = $res[$i]["prenom"];
+                $email = $res[$i]["email"];
+                $adresse = $res[$i]["adresse"];
+                $telephone = $res[$i]["telephone"];
+                $profil = $res[$i]["profil"];
+                $user = new User($id, $login, $pwd, $nom, $prenom, $email,$adresse, $telephone, $profil);
+                $users[] = $user;
+            }
+        }
+        return $users;
+    }
+
     public function selectById($id){
         $sql = Constante::$SELECT_USER_BY_ID;
         $entete = array("login", "pwd","nom","prenom","email","adresse","telephone","profil");

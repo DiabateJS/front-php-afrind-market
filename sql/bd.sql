@@ -166,3 +166,11 @@ CREATE TABLE  `am_transaction` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+CREATE TABLE `am_livrer_commande` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `idcmd` int NOT NULL,
+  `idlivreur` int NOT NULL,
+  `date` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+

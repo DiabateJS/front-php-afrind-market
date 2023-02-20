@@ -23,11 +23,14 @@ $libelle_cmd = $_GET["libelle"];
 $commandesModel = new CommandesModel();
 $commande = $commandesModel->selectByLibelle($libelle_cmd);
 $statut = $commande->statut;
-$montant = $commandesModel->getMontantWithCmdLibelle($libelle_cmd);
+$usersModel = new UsersModel();
+$user = $usersModel->selectUserByLibelleCom($libelle_cmd);
+$user = $user[0];
 ?>
 <br>
 <?php
 if ($statut == "A_REGLER"){
+$montant = $commandesModel->getMontantWithCmdLibelle($libelle_cmd);
 ?>
 <div class="row">
 <div class="col-6">
@@ -60,11 +63,6 @@ Montant commande : <b><?= $montant ?></b>
 </div>
 <div class="col-6">
 <b>Client</b><br>
-<?php
-$usersModel = new UsersModel();
-$user = $usersModel->selectUserByLibelleCom($libelle_cmd);
-$user = $user[0];
-?>
 Nom : <?= $user["nom"] ?> <?= $user["prenom"] ?><br>
 Email : <?= $user["email"] ?><br>
 Telephone : <?= $user["telephone"] ?><br>
@@ -116,8 +114,42 @@ $lignes = $lignesComModel->selectByLibelleCom($libelle_cmd);
 </div>
 <?php
 }
-if ($statut == "REGLER"){
-
+if ($statut == "REGLE"){
+?>
+<h4>Affectation de la commande à un livreur</h4>
+<br>
+<b>Information commande</b><br>
+<br>
+Référence : <?= $libelle_cmd ?><br>
+Montant : <?= $commande->montant ?><br>
+Date commande : <?= $commande->date ?> <br>
+<br>
+<b>Information client</b><br>
+<br>
+Nom et prenom : <?= $user["nom"]." ".$user["prenom"] ?><br>
+Adresse : <?= $user["adresse"] ?><br>
+Téléphone : <?= $user["telephone"] ?><br>
+<form action="traiter_statut_regle.php" method="POST">
+<input type="hidden" value="<?= $commande->id ?>" name="idcommande">
+<br>
+Choisissez un livreur <br>
+<?php
+$livreurs = $usersModel->getLivreurs();
+?>
+<select name="idlivreur">
+    <?php
+    for ($i = 0 ; $i < count($livreurs) ; $i++){
+    ?>
+        <option value="<?= $livreurs[$i]->id ?>"><?= $livreurs[$i]->nom." ".$livreurs[$i]->prenom ?></option>
+    <?php
+    }
+    ?>
+</select>
+<br>
+<br>
+<input type="submit" class="btn btn-warning" value="Valider affectation">
+</form>
+<?php
 }
 if ($statut == "A_LIVRER"){
 
