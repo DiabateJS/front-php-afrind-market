@@ -91,7 +91,7 @@
     if (isset($_SESSION["profil"]) && $_SESSION["profil"] == "livreur"){ 
     ?>
     document.getElementById("livraisons-tab2").onclick = function(){
-        window.location.href = urlBase + 'livraisons.php';
+        window.location.href = urlBase ;
     }
     <?php
     }
