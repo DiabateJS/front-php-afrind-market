@@ -23,7 +23,7 @@ include_once "entete.php";
 $date = date("d-m-Y H:i:s");
 $idcmd = $_POST["idcommande"];
 $idlivreur = $_POST["idlivreur"];
-$livraison = new Livraison(0,$idcmd, $idlivreur, $date);
+$livraison = new Livraison(0,$idcmd, $idlivreur, $date,"");
 $livraisonsModel = new LivraisonsModel();
 $commandesModel = new CommandesModel();
 $commande = $commandesModel->selectById($idcmd);
