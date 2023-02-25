@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="styles.css">
+    <title>Vente en ligne - Connexion</title>
+</head>
+<body>
+    <div class="container">
+        <div id="form-container">
+            <img src="images/afrind_market.jpeg" width="100px" height="100px" style="margin-bottom:15px;">
+            <span id="msg_error" class="text-danger"></span>
+            <input type="text" name="login" id="login" placeholder="Login" class="field" value=""><br>
+            <input type="password" name="pwd" id="pwd" placeholder="Mot de passe" class="field" value=""><br>
+            <button class="btn btn-primary" onclick="auth()">Connecter</button>
+            <button class="btn btn-success" onclick="creerCompte()">Creer Compte</button>
+        </div>
+    </div>
+    <script src="jquery-3.6.3.js"></script>
+    <script src="bootstrap.js"></script>
+    <script>
+        function auth(){
+            let login = $("#login").val();
+            let pwd = $("#pwd").val();
+            let urlBase = "http://localhost/front-php-afrind-market/api/index.php?";
+            let url = urlBase + "operation=users&action=auth&login="+login+"&pwd="+pwd;
+            $.get(url, function( data ) {
+                let oData = JSON.parse(data);
+                let userData;
+                if (oData.statut == 200 && !oData.hasError){
+                    userData = oData.data[0];
+                    console.log(userData);
+                    if (userData){
+                        localStorage.setItem("user",login);
+                        localStorage.setItem("userid",userData.id);
+                        localStorage.setItem("email",userData.email);
+                        localStorage.setItem("nom",userData.nom);
+                        localStorage.setItem("prenom",userData.prenom);
+                        localStorage.setItem("profil",userData.profil);
+                        window.location.href = "index.html";
+                    }else{
+                        localStorage.setItem("user","");
+                        localStorage.setItem("userid","");
+                        localStorage.setItem("email","");
+                        localStorage.setItem("nom","");
+                        localStorage.setItem("prenom","");
+                        localStorage.setItem("profil","");
+                        $("#msg_error").html("Login ou Mot de passe incorrecte !");
+                    }
+                }
+            });
+        }
+
+        function creerCompte(){
+        }
+    </script>
+</body>
+</html>

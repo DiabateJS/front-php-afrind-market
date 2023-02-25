@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Vente en ligne</title>
 </head>
 <body>
@@ -14,30 +15,30 @@
     <img src="images/afrind_market.jpeg" style="width:150px; height: 150px;margin-bottom:15px;">
     <br>
         <div id="zoneUserInfo">
-            <i class="fa fa-user" aria-hidden="true"></i> Utilisateur : user - 
-            <i class="fa fa-cart-plus" aria-hidden="true"></i> <a href="panier.php?userid=1">Mon Panier</a> - 
-            <i class="fa fa-cog" aria-hidden="true"></i> <a href="profil.php?id=1">Mon Profil</a> - 
-            <i class="fa fa-user-times" aria-hidden="true"></i> <a href="deconnexion.php">Deconnexion</a> -
-            <i class="fa fa-user-circle" aria-hidden="true"></i> <a href="connexion.php">Connexion</a>
+            <i class="fa fa-user" aria-hidden="true"></i><span id="userLogin">Utilisateur : Inconnu</span> 
+            <span id="showPanier"><i class="fa fa-cart-plus" aria-hidden="true"></i> <a href="panier.php?userid=1">Mon Panier</a></span> 
+            <span id="showProfil"><i class="fa fa-cog" aria-hidden="true"></i> <a href="profil.php?id=1">Mon Profil</a></span>  
+            <span id="showDeconexion"><i class="fa fa-user-times" aria-hidden="true"></i> <a href="deconnexion.php">Deconnexion</a></span> 
+            <i class="fa fa-user-circle" aria-hidden="true"></i> <a href="connexion.html">Connexion</a>
         </div>
         <br>
     <nav> 
     <ul class="nav nav-pills nav-fill gap-2 p-1 small bg-primary rounded-5 shadow-sm" id="pillNav2" role="tablist" style="--bs-nav-link-color: var(--bs-white); --bs-nav-pills-link-active-color: var(--bs-primary); --bs-nav-pills-link-active-bg: var(--bs-white);">
-    <li class="nav-item" role="presentation">
-        <button class="nav-link active rounded-5" id="livraisons-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="true">Livraisons</button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link rounded-5" id="articles-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="true">Articles</button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link active rounded-5" id="article-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="false">Nouveau</button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link active rounded-5" id="contact-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="false">Contact</button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link active rounded-5" id="admin-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="false">Administration</button>
-    </li>
+        <li class="nav-item" role="presentation" id="articles-box">
+            <button class="nav-link active rounded-5" id="articles-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="true">Articles</button>
+        </li>
+        <li class="nav-item" role="presentation" id="livraisons-box">
+            <button class="nav-link rounded-5" id="livraisons-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="true">Livraisons</button>
+        </li>
+        <li class="nav-item" role="presentation" id="article-box">
+            <button class="nav-link rounded-5" id="article-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="false">Nouveau</button>
+        </li>
+        <li class="nav-item" role="presentation" id="contact-box">
+            <button class="nav-link rounded-5" id="contact-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="false">Contact</button>
+        </li>
+        <li class="nav-item" role="presentation" id="admin-box">
+            <button class="nav-link rounded-5" id="admin-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="false">Administration</button>
+        </li>
     </ul>
     <br>
     </nav>
@@ -48,6 +49,12 @@
 <script>
     $(document).ready(function() {
         let urlBase = 'http://localhost/front-php-afrind-market/';
+        $("#showPanier").hide();
+        $("#showProfil").hide();
+        $("#showDeconexion").hide();
+        $("#livraisons-box").hide();
+        $("#article-box").hide();
+        $("#admin-box").hide();
         $("#articles-tab2").click(function(){
             window.location.href = urlBase;
         });
