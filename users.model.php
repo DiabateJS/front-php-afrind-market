@@ -74,7 +74,7 @@ class UsersModel {
 
     public function selectById($id){
         $sql = Constante::$SELECT_USER_BY_ID;
-        $entete = array("login", "pwd","nom","prenom","email","adresse","telephone","profil");
+        $entete = array("id","login", "pwd","nom","prenom","email","adresse","telephone","profil");
         $dicoParam = array(
             "id" => $id
         );

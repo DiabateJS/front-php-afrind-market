@@ -14,7 +14,7 @@ class Constante {
     public static $AUTH_USER = "select u.id,u.nom, u.prenom, u.email, u.adresse, u.telephone, p.libelle as profil from user u join profil p on u.idprofil = p.id where login = :login and pwd = :pwd";
     public static $SELECT_USERS = "select u.id, u.login, u.pwd, u.nom, u.prenom, u.email, u.adresse, u.telephone, p.libelle as profil from user u join profil p on u.idprofil = p.id";
     public static $SELECT_LIVREURS = "select u.id, u.login, u.pwd, u.nom, u.prenom, u.email, u.adresse, u.telephone, p.libelle as profil from user u join profil p on u.idprofil = p.id where p.libelle = 'livreur'";
-    public static $SELECT_USER_BY_ID = "select u.login, u.pwd, u.nom, u.prenom, u.email, u.adresse, u.telephone, p.libelle as profil from user u join profil p on u.idprofil = p.id where u.id = :id";
+    public static $SELECT_USER_BY_ID = "select u.id, u.login, u.pwd, u.nom, u.prenom, u.email, u.adresse, u.telephone, p.libelle as profil from user u join profil p on u.idprofil = p.id where u.id = :id";
     public static $SELECT_USER_BY_LIBELLE_COMMANDE = "select distinct u.id, u.nom, u.prenom, u.email, u.adresse, u.telephone from commande c join ligne_commande l on c.id = l.idcmd join user u on u.id = l.iduser where c.libelle = :libelle";
     public static $CREATE_USER = "insert into user(login, pwd, nom, prenom, email, adresse, telephone, idprofil) values (:login, :pwd, :nom, :prenom, :email, :adresse, :telephone, (select id from profil where libelle = :profil))";
     public static $SELECT_PROFILS = "select id, libelle from profil";
