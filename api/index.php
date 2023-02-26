@@ -1,10 +1,13 @@
 <?php
 include_once "../users.model.php";
 include_once "../articles.model.php";
+include_once "../ligne_commande.model.php";
+include_once "../lignes_commandes.model.php";
 include_once "../result.model.php";
 
 $usersModel = new UsersModel();
 $articlesModel = new ArticleModel();
+$lignesComsModel = new LignesCommandesModel();
 
 $operation = $_GET["operation"];
 $action = $_GET["action"];
@@ -40,6 +43,26 @@ if($operation == "articles" && $action == "all"){
     $resultat = new Result();
     $articles = $articlesModel->getArticles();
     $resultat->data = $articles;
+    echo json_encode($resultat);
+}
+
+if ($operation == "commandes" && $action == "create" 
+        && isset($_GET["idarticle"]) && isset($_GET["iduser"]) && isset($_GET["qte"])){
+    $idarticle = $_GET["idarticle"];
+    $libelle = "";
+    $prix = "";
+    $img = "";
+    $idcmd = "";
+    $iduser = $_GET["iduser"];
+    $qte = $_GET["qte"];
+    $ligneCom = new LigneCommande(0, $idarticle, $libelle, $prix, $img, $iduser, $qte, $idcmd);
+    $resultat = $lignesComsModel->create($ligneCom);
+    echo json_encode($resultat);
+}
+
+if ($operation == "commandes" && $action == "select" && isset($_GET["userid"])){
+    $userId = $_GET["userid"];
+    $resultat = $lignesComsModel->selectByUserId($userId);
     echo json_encode($resultat);
 }
 
