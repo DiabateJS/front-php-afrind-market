@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="bootstrap.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Vente en ligne</title>
@@ -16,7 +17,7 @@
     <br>
         <div id="zoneUserInfo">
             <i class="fa fa-user" aria-hidden="true"></i><span id="userLogin">Utilisateur : Inconnu</span> 
-            <span id="showPanier"><i class="fa fa-cart-plus" aria-hidden="true"></i> <a href="panier.php?userid=1">Mon Panier</a></span> 
+            <span id="showPanier"><i class="fa fa-cart-plus" aria-hidden="true"></i> <a href="#" onclick="showPanier()">Mon Panier</a></span> 
             <span id="showProfil"><i class="fa fa-cog" aria-hidden="true"></i> <a href="profil.php?id=1">Mon Profil</a></span>  
             <span id="showDeconexion"><i class="fa fa-user-times" aria-hidden="true"></i> <a href="#" onclick="deconnexion()">Deconnexion</a></span> 
             <span id="showConnexion"><i class="fa fa-user-circle" aria-hidden="true"></i> <a href="connexion.html">Connexion</a></span>
@@ -43,11 +44,17 @@
     <br>
     </nav>
 </header>
+<div class="articles" id="articlesList"></div>
+<div id="livraisonsList"></div>
+<div id="commanderZone" class="row"></div>
+<div id="panierZone"></div>
 </div>
 <script src="jquery-3.6.3.js"></script>
 <script src="bootstrap.js"></script>
 <script src="constante.js"></script>
 <script>
+    let articles = [];
+
     function deconnexion(){
         localStorage.setItem("userData","");
         $("#showConnexion").show();
@@ -101,6 +108,57 @@
         $("#admin-box").hide();
     }
 
+    function showPanier(){
+        $("#articlesList").hide();
+        $("#livraisonsList").hide();
+        $("#commanderZone").hide();
+        $("#panierZone").show();
+        let userInfo = localStorage.getItem("userData");
+        let userData = JSON.parse(userInfo);
+        let userId = userData.id;
+        let code = "";
+        code += "<br><h4>Votre Panier</h4>";
+        let url = URL_BASE_API+"operation=commandes&action=select&userid="+userId;
+        $.get(url, function( data ) {
+            let commandes = JSON.parse(data);
+            code +="<table class='table table-striped'>";
+            code +="<thead>";
+            code += "<tr>";
+            code += "<th>Image</th>";
+            code += "<th>Article</th>";
+            code +="<th>Prix</th>";
+            code +="<th>Qte</th>";
+            code +="<th>Montant</th>";
+            code +="<th>Actions</th>";
+            code += "</tr>";
+            code += "</thead>";
+            code +="<tbody>";
+            let commande = null;
+            let montant = 0;
+            let total = 0;
+            for (let i = 0 ; i < commandes.length ; i++){
+                commande = commandes[i];
+                montant = commande.prix * commande.qte;
+                total += montant;
+                code +="<tr>";
+                code +="<td><img src='"+commande.img+"' style='width:50px;height:50px;'></td>";
+                code +="<td>"+commande.libelle+"</td>";
+                code +="<td>"+commande.prix+"</td>";
+                code +="<td>"+commande.qte+"</td>";
+                code +="<td>"+montant+"</td>";
+                code +="<td></td>";
+                code +="</tr>";
+            }
+            code +="<tr>";
+            code +="<td colspan=4><b>Total</b></td>";
+            code +="<td colspan=2><b>"+total+"</b></td>";
+            code +="</tbody>";
+            code +="</table>";
+            $("#panierZone").html(code);
+        });
+        $("#panierZone").html(code);
+    }
+
     function loadActions(){
         let userInfo = localStorage.getItem("userData");
         if (userInfo == "" || userInfo == undefined){
@@ -123,6 +181,81 @@
         }
     }
 
+    function loadArticles(){
+        let url = URL_BASE_API + "operation=articles&action=all";
+        $.get(url, function( data ) {
+            let sData = data;
+            let oData = JSON.parse(sData);
+            if (oData.statut == 200 && !oData.hasError){
+                articles = oData.data;
+            }
+            let sCode = "";
+            for (let i = 0 ; i < articles.length ; i++){
+                sCode += getArticleCode(articles[i]);
+            }
+            $("#articlesList").html(sCode);
+        });
+    }
+
+    function getArticleCode(articleData){
+        let code = "";
+        code +="<div class='card article col-md-3 col-xs-12'>";
+        code += "<img src='" + articleData.img_link + "' class='card-img-top img-rounded img-responsive' style='max-width:250px;height:250px'>";
+        code += "<div class='card-body'>";
+        code += "<h5 class='card-title'>"+articleData.libelle+"</h5>";
+        code += "<p class='card-text'>";
+        code += articleData.prix + " F CFA<br>";
+        code += articleData.qte +" en stock<br>";
+        code +="<br>";
+        code += articleData.commentaire + " <br>";
+        code += "</p>";
+        code +="<a href='#' class='btn btn-primary' onclick='loadCommande("+articleData.id+")'>Commander</a>";
+        code += "</div>";
+        code += "</div>";
+        return code;
+    }
+
+    function getCommanderZoneCode(articleData){
+        let code = "";
+        code +="<div class='col-4 col-md-4 col-xs-12'>";
+        code +="<img src='"+articleData.img_link+"' style='max-width:250px;height:250px'/>";
+        code +="</div>";
+        code +="<div class='col-8 col-md-8 col-xs-12'>";
+        code +=articleData.libelle+" <br>";
+        code +=articleData.prix+" F CFA <br>";
+        code +="Qte :  <br>";
+        code +="<input type='number' name='qte' id='qte' min='1' max='"+articleData.qte+"'>";
+        code +="<br><br>";
+        code +="<button class='btn btn-success' onclick='commander("+articleData.id+")'>Commander</button>";
+        code +="</div>";
+        return code;
+    }
+
+    function loadCommande(articleId){
+        $("#articlesList").hide();
+        $("#livraisonsList").hide();
+        $("#commanderZone").show();
+        let article = articles.filter(a => a.id == articleId)[0];
+        let code = getCommanderZoneCode(article);
+        $("#commanderZone").html(code);
+    }
+
+    function commander(articleId){
+        let qte = $("#qte").val();
+        let userData = localStorage.getItem("userData");
+        let oUserData = JSON.parse(userData);
+        let userId = oUserData.id;
+        console.log("Article Id : "+articleId+" User Id : "+userId+" Quantite : "+qte);
+        let url = URL_BASE_API + "operation=commandes&action=create&idarticle="+articleId+"&iduser="+userId+"&qte="+qte;
+        $.get(url, function( data ) {
+            let oData = JSON.parse(data);
+            console.log(oData);
+            if (oData.statut == 200 && !oData.hasError){
+                $("#commanderZone").html("<br><br><h4>Commande crée avec succès !</h4>");
+            }
+        });
+    }
+
     $(document).ready(function() {
         let urlBase = URL_BASE;
         loadActions();
@@ -141,6 +274,7 @@
         $("#livraisons-tab2").click(function(){
             window.location.href = urlBase ;
         });
+        loadArticles();
     });
 </script> 
 </body>
