@@ -21,33 +21,22 @@
     </div>
     <script src="jquery-3.6.3.js"></script>
     <script src="bootstrap.js"></script>
+    <script src="constante.js"></script>
     <script>
         function auth(){
             let login = $("#login").val();
             let pwd = $("#pwd").val();
-            let urlBase = "http://localhost/front-php-afrind-market/api/index.php?";
-            let url = urlBase + "operation=users&action=auth&login="+login+"&pwd="+pwd;
+            let url = URL_BASE_API + "operation=users&action=auth&login="+login+"&pwd="+pwd;
             $.get(url, function( data ) {
                 let oData = JSON.parse(data);
                 let userData;
                 if (oData.statut == 200 && !oData.hasError){
                     userData = oData.data[0];
-                    console.log(userData);
                     if (userData){
-                        localStorage.setItem("user",login);
-                        localStorage.setItem("userid",userData.id);
-                        localStorage.setItem("email",userData.email);
-                        localStorage.setItem("nom",userData.nom);
-                        localStorage.setItem("prenom",userData.prenom);
-                        localStorage.setItem("profil",userData.profil);
+                        localStorage.setItem("userData",JSON.stringify(userData));
                         window.location.href = "index.html";
                     }else{
-                        localStorage.setItem("user","");
-                        localStorage.setItem("userid","");
-                        localStorage.setItem("email","");
-                        localStorage.setItem("nom","");
-                        localStorage.setItem("prenom","");
-                        localStorage.setItem("profil","");
+                        localStorage.setItem("userData","");
                         $("#msg_error").html("Login ou Mot de passe incorrecte !");
                     }
                 }

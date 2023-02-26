@@ -18,8 +18,8 @@
             <i class="fa fa-user" aria-hidden="true"></i><span id="userLogin">Utilisateur : Inconnu</span> 
             <span id="showPanier"><i class="fa fa-cart-plus" aria-hidden="true"></i> <a href="panier.php?userid=1">Mon Panier</a></span> 
             <span id="showProfil"><i class="fa fa-cog" aria-hidden="true"></i> <a href="profil.php?id=1">Mon Profil</a></span>  
-            <span id="showDeconexion"><i class="fa fa-user-times" aria-hidden="true"></i> <a href="deconnexion.php">Deconnexion</a></span> 
-            <i class="fa fa-user-circle" aria-hidden="true"></i> <a href="connexion.html">Connexion</a>
+            <span id="showDeconexion"><i class="fa fa-user-times" aria-hidden="true"></i> <a href="#" onclick="deconnexion()">Deconnexion</a></span> 
+            <span id="showConnexion"><i class="fa fa-user-circle" aria-hidden="true"></i> <a href="connexion.html">Connexion</a></span>
         </div>
         <br>
     <nav> 
@@ -46,15 +46,86 @@
 </div>
 <script src="jquery-3.6.3.js"></script>
 <script src="bootstrap.js"></script>
+<script src="constante.js"></script>
 <script>
-    $(document).ready(function() {
-        let urlBase = 'http://localhost/front-php-afrind-market/';
+    function deconnexion(){
+        localStorage.setItem("userData","");
+        $("#showConnexion").show();
+        $("#showDeconexion").hide();
+        $("#showPanier").hide();
+        $("#showProfil").hide();
+        $("#livraisons-box").hide();
+        $("#article-box").hide();
+        $("#admin-box").hide();
+        $("#userLogin").html("Utilisateur : Inconnu");     
+        loadActions();
+    }
+
+    function loadUnkownUserActions(){
         $("#showPanier").hide();
         $("#showProfil").hide();
         $("#showDeconexion").hide();
         $("#livraisons-box").hide();
         $("#article-box").hide();
+        $("#articles-box").show();
         $("#admin-box").hide();
+        $("#showConnexion").show();
+    }
+
+    function loadAdminUserActions(){
+        $("#showPanier").show();
+        $("#showProfil").show();
+        $("#showDeconexion").show();
+        $("#livraisons-box").hide();
+        $("#article-box").show();
+        $("#admin-box").show();
+    }
+
+    function loadUserActions(){
+        $("#showPanier").show();
+        $("#showProfil").show();
+        $("#showDeconexion").show();
+        $("#livraisons-box").hide();
+        $("#article-box").hide();
+        $("#articles-box").show();
+        $("#admin-box").hide();
+    }
+
+    function loadLivreurActions(){
+        $("#showPanier").hide();
+        $("#showProfil").hide();
+        $("#showDeconexion").show();
+        $("#livraisons-box").show();
+        $("#article-box").hide();
+        $("#articles-box").hide();
+        $("#admin-box").hide();
+    }
+
+    function loadActions(){
+        let userInfo = localStorage.getItem("userData");
+        if (userInfo == "" || userInfo == undefined){
+            loadUnkownUserActions();
+            $("#articles-box").addClass("active");
+        } else {
+            let userData = JSON.parse(userInfo);
+            $("#userLogin").html("Utilisateur : "+userData.prenom);
+            $("#showConnexion").hide();
+            if (userData.profil == "admin"){
+                loadAdminUserActions();
+            }
+            if (userData.profil == "user"){
+                loadUserActions();
+            }
+            if (userData.profil == "livreur"){
+                loadLivreurActions();
+                $("#livraisons-tab2").addClass("active");
+            }
+        }
+    }
+
+    $(document).ready(function() {
+        let urlBase = URL_BASE;
+        loadActions();
         $("#articles-tab2").click(function(){
             window.location.href = urlBase;
         });
