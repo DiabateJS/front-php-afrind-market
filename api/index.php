@@ -58,6 +58,11 @@ if($operation == "articles" && $action == "all"){
     echo json_encode($resultat);
 }
 
+if ($operation == "commandes" && $action == "all"){
+    $resultat = $commandesModel->getCommandes();
+    echo json_encode($resultat);
+}
+
 if ($operation == "commandes" && $action == "create" 
         && isset($_GET["idarticle"]) && isset($_GET["iduser"]) && isset($_GET["qte"])){
     $idarticle = $_GET["idarticle"];
