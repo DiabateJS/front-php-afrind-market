@@ -164,35 +164,7 @@
                 <br>
                 <h4>Gestion des profils utilisateurs</h4>
                 <br>
-                <div id="adminShowProfils">
-                    <button class="btn btn-success" onclick="showNewProfil()">Créer Profil</button>
-                    <br>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Libelle</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                                for ($i = 0 ; $i < count($profils) ; $i++){
-                            ?>
-                                <tr>
-                                    <td><?= $profils[$i]->id ?></td>
-                                    <td><?= $profils[$i]->libelle ?></td>
-                                    <td>
-                                        <button class="btn btn-warning">Modifier</button>
-                                        <a href="traiter_nouveau_profil.php?operation=delete&id=<?= $profils[$i]->id ?>" class="btn btn-danger">Supprimer</button>
-                                    </td>
-                                </tr>
-                            <?php        
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
+                <div id="adminShowProfils"></div>
                 <div id="adminNewProfil">
                     <form action="traiter_nouveau_profil.php" method="POST">
                         <div class="mb-3">
@@ -605,6 +577,48 @@
         $("#adminShowUsers").html(code);
     }
 
+    function loadAdminUsersProfils(){
+        let code = "";
+        code += "<button class='btn btn-success' onclick='showNewProfil()'>Créer Profil</button>";
+        code += "<br>";
+        code += "<table class='table table-striped'>";
+        code += "<thead>";
+        code += "<tr>";
+        code += "<th>#</th>";
+        code += "<th>Libelle</th>";
+        code += "<th>Actions</th>";
+        code += "</tr>";
+        code += "</thead>";
+        code += "<tbody>";
+        let url = URL_BASE_API + "operation=profils&action=all";
+        $.get(url, function( data ) {
+            let oResultat = JSON.parse(data);
+            if (oResultat.statut == 200 && !oResultat.hasError){
+                let arProfils = oResultat.data;
+                let profil = null;
+                for (let i = 0 ; i < arProfils.length ; i++){
+                    profil = arProfils[i];
+                    code += "<tr>";
+                    code += "<td>"+profil.id+"</td>";
+                    code += "<td>"+profil.libelle+"</td>";
+                    code += "<td>";
+                    code += "<button class='btn btn-warning'>Modifier</button>";
+                    code += " <a href='#' onclick='deleteProfil()' class='btn btn-danger'>Supprimer</button>";
+                    code += "</td>";
+                    code += "</tr>";      
+                }
+                code += "</tbody>";
+                code += "</table>";
+                $("#adminShowProfils").html(code); 
+            }
+        });
+        $("#adminShowProfils").html(code);
+    }
+
+    function deleteProfil(){
+        
+    }
+
     function selectAdminUserZone(){
         $("#adminUserZone").show();
         $("#adminNewProfil").hide();
@@ -641,6 +655,7 @@
             afficherZone("adminZone");
             selectAdminUserZone();
             loadAdminShowUserZone();
+            loadAdminUsersProfils();
         });
         $("#livraisons-tab2").click(function(){
             afficherZone("livraisonsList");
