@@ -45,7 +45,6 @@
     </nav>
 </header>
 <div class="articles" id="articlesList"></div>
-<div id="adminZone"></div>
 <div id="livraisonsList"></div>
 <div id="commanderZone" class="row"></div>
 <div id="panierZone">
@@ -100,6 +99,166 @@
         <button class="btn btn-success" name="operation" value="nouveau">Nouveau</button>
     </form>
     <br>
+</div>
+<div id="adminZone">
+    <div class="row">
+        <div class="col-3">
+            <ul>
+                <li><a href="#" onclick="selectAdminUserZone()">Utilisateurs</a></li>
+                <li><a href="#" onclick="selectAdminCommandeZone()">Commandes</a></li>
+            </ul>
+        </div>
+        <div class="col-9">
+            <div id="adminUserZone">
+                <br>
+                <h4>Gestion des utilisateurs</h4>
+                <br>
+                <div id="adminShowUsers"></div>
+                <div id="adminNewUser">
+                    <h5>Création Utilisateur</h5>
+                    <br>
+                    <form action="traiter_nouveau_user.php" method="POST">
+                        <div class="mb-3">
+                            <label for="nom_user" class="form-label">Nom</label>
+                            <input type="text" class="form-control" name="nom_user" id="nom_user" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="prenom_user" class="form-label">Prenom</label>
+                            <input type="text" class="form-control" name="prenom_user" id="prenom_user" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email_user" class="form-label">Email</label>
+                            <input type="text" class="form-control" name="email_user" id="email_user" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="login_user" class="form-label">Login</label>
+                            <input type="text" class="form-control" name="login_user" id="login_user" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password_user" class="form-label">Password</label>
+                            <input type="password" class="form-control" name="password_user" id="password_user" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="adresse_user" class="form-label">Adresse</label>
+                            <input type="text" class="form-control" name="adresse_user" id="adresse_user" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="telephone_user" class="form-label">Telephone</label>
+                            <input type="text" class="form-control" name="telephone_user" id="telephone_user" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="profil_user" class="form-label">Profil</label>
+                            <select class="form-control" name="profil_user" id="profil_user" required>
+                                <?php
+                                    for ($i = 0 ; $i < count($profils) ; $i++){
+                                ?>
+                                    <option value="<?= $profils[$i]->libelle ?>"><?= strtoupper($profils[$i]->libelle) ?></option>
+                                <?php
+                                    }
+                                ?>    
+                            </select>
+                        </div>
+                        <input type="submit" class="btn btn-success" value="Créer">
+                    </form>
+                </div>
+                <br>
+                <h4>Gestion des profils utilisateurs</h4>
+                <br>
+                <div id="adminShowProfils">
+                    <button class="btn btn-success" onclick="showNewProfil()">Créer Profil</button>
+                    <br>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Libelle</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                                for ($i = 0 ; $i < count($profils) ; $i++){
+                            ?>
+                                <tr>
+                                    <td><?= $profils[$i]->id ?></td>
+                                    <td><?= $profils[$i]->libelle ?></td>
+                                    <td>
+                                        <button class="btn btn-warning">Modifier</button>
+                                        <a href="traiter_nouveau_profil.php?operation=delete&id=<?= $profils[$i]->id ?>" class="btn btn-danger">Supprimer</button>
+                                    </td>
+                                </tr>
+                            <?php        
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="adminNewProfil">
+                    <form action="traiter_nouveau_profil.php" method="POST">
+                        <div class="mb-3">
+                            <label for="libelle_profil" class="form-label">Libellé Profil</label>
+                            <input type="text" class="form-control" name="libelle_profil" id="libelle_profil" required>
+                        </div>
+                        <input type="submit" class="btn btn-success" value="Créer">
+                    </form>
+                </div>
+            </div>
+            <div id="adminCommandeZone">
+                <h4>Supervision des commandes</h4>
+                <br>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Libelle</th>
+                            <th>Montant</th>
+                            <th>Statut</th>
+                            <th>Nom</th>
+                            <th>Prenom</th>
+                            <th>Email</th>
+                            <th>Adresse</th>
+                            <th>Telephone</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                        $statut = "";
+                        $class = "";
+                        for($i = 0 ; $i < count($commandes) ; $i++){
+                            $statut = $commandes[$i]["statut"];
+                            $class = "badge ";
+                            if ($statut == "A_REGLER"){
+                                $class .="text-bg-primary";
+                            }
+                            if ($statut == "REGLE"){
+                                $class .="text-bg-success";
+                            }
+                            if ($statut == "A_LIVRER"){
+                                $class .="text-bg-warning";
+                            }
+                            if ($statut == "LIVRER"){
+                                $class .="text-bg-info";
+                            }
+                        ?>
+                        <tr>
+                            <td><?= $commandes[$i]["libelle"] ?></td>
+                            <td><?= $commandes[$i]["montant"] ?></td>
+                            <td><span class="<?= $class ?>"><?= $statut ?></span></td>
+                            <td><?= $commandes[$i]["nom"] ?></td>
+                            <td><?= $commandes[$i]["prenom"] ?></td>
+                            <td><?= $commandes[$i]["email"] ?></td>
+                            <td><?= $commandes[$i]["adresse"] ?></td>
+                            <td><?= $commandes[$i]["telephone"] ?></td>
+                            <td><a class="btn btn-success" href="statut_commande.php?libelle=<?= $commandes[$i]["libelle"] ?>">Changer Statut</a></td>
+                        </tr>
+                    <?php        
+                        }
+                    ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 </div>
 <script src="jquery-3.6.3.js"></script>
@@ -402,8 +561,70 @@
         });
     }
 
+    function loadAdminShowUserZone(){
+        let code = "";
+        code +="<br>";
+        code +="<button class='btn btn-success' onclick='showNewUser()'>Nouveau</button><br>";
+        code +="<table class='table table-striped'>";
+        code +="<thead>";
+        code +="<tr>";
+        code +="<th>Nom</th>";
+        code +="<th>Prenom</th>";
+        code +="<th>Login</th>";
+        code +="<th>Email</th>";
+        code +="<th>Adresse</th>";
+        code +="<th>Telephone</th>";
+        code +="<th>Profil</th>";
+        code +="</tr>";
+        code +="</thead>";
+        code +="<tbody>";
+        let url = URL_BASE_API + "operation=users&action=all";
+        $.get(url, function( data ) {
+            let oResultat = JSON.parse(data);
+            if (oResultat.statut == 200 && !oResultat.hasError){
+                let oUsers = oResultat.data;
+                let oUser = null;
+                for(let i = 0 ; i < oUsers.length ; i++){
+                    oUser = oUsers[i];
+                    code +="<tr>";
+                        code +="<td>"+oUser.nom+"</td>";
+                        code +="<td>"+oUser.prenom+"</td>";
+                        code +="<td>"+oUser.login+"</td>";
+                        code +="<td>"+oUser.email+"</td>";
+                        code +="<td>"+oUser.adresse+"</td>";
+                        code +="<td>"+oUser.telephone+"</td>";
+                        code +="<td>"+oUser.profil+"</td>";
+                        code +="</tr>";
+                }
+                code +="</tbody>";
+                code +="</table>";
+                code +="<br>";
+                $("#adminShowUsers").html(code);
+            }
+        });
+        $("#adminShowUsers").html(code);
+    }
+
+    function selectAdminUserZone(){
+        $("#adminUserZone").show();
+        $("#adminNewProfil").hide();
+        $("#adminNewUser").hide();
+        $("#adminCommandeZone").hide();
+    }
+    function selectAdminCommandeZone(){
+        $("#adminUserZone").hide();
+        $("#adminCommandeZone").show();
+    }
+    function showAdminNewProfil(){
+        $("#adminShowProfils").hide();
+        $("#adminNewProfil").show();
+    }
+    function showAdminNewUser(){
+        $("#adminShowUsers").hide();
+        $("#adminNewUser").show();
+    }
+
     $(document).ready(function() {
-        let urlBase = URL_BASE;
         loadActions();
         $("#articles-tab2").click(function(){
             afficherZone("articlesList");
@@ -418,7 +639,8 @@
         });
         $("#admin-tab2").click(function(){
             afficherZone("adminZone");
-            $("#newArticleZone").hide();
+            selectAdminUserZone();
+            loadAdminShowUserZone();
         });
         $("#livraisons-tab2").click(function(){
             afficherZone("livraisonsList");
