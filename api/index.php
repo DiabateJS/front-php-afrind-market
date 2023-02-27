@@ -1,5 +1,6 @@
 <?php
 include_once "../users.model.php";
+include_once "../profils.model.php";
 include_once "../articles.model.php";
 include_once "../ligne_commande.model.php";
 include_once "../lignes_commandes.model.php";
@@ -8,6 +9,7 @@ include_once "../commandes.model.php";
 include_once "../result.model.php";
 
 $usersModel = new UsersModel();
+$profilsModel = new ProfilsModel();
 $articlesModel = new ArticleModel();
 $lignesComsModel = new LignesCommandesModel();
 $commandesModel = new CommandesModel();
@@ -40,6 +42,13 @@ if($operation == "users" && $action == "auth" && isset($_GET["login"]) && isset(
     $login = $_GET["login"];
     $pwd = $_GET["pwd"];
     echo json_encode($usersModel->isAuth($login,$pwd));
+}
+
+if($operation == "profils" && $action == "all"){
+    $resultat = new Result();
+    $profils = $profilsModel->getProfils();
+    $resultat->data = $profils;
+    echo json_encode($resultat);
 }
 
 if($operation == "articles" && $action == "all"){
