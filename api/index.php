@@ -3,11 +3,14 @@ include_once "../users.model.php";
 include_once "../articles.model.php";
 include_once "../ligne_commande.model.php";
 include_once "../lignes_commandes.model.php";
+include_once "../commande.model.php";
+include_once "../commandes.model.php";
 include_once "../result.model.php";
 
 $usersModel = new UsersModel();
 $articlesModel = new ArticleModel();
 $lignesComsModel = new LignesCommandesModel();
+$commandesModel = new CommandesModel();
 
 $operation = $_GET["operation"];
 $action = $_GET["action"];
@@ -60,9 +63,15 @@ if ($operation == "commandes" && $action == "create"
     echo json_encode($resultat);
 }
 
-if ($operation == "commandes" && $action == "select" && isset($_GET["userid"])){
+if ($operation == "commandes" && $action == "select_cmd_new" && isset($_GET["userid"])){
     $userId = $_GET["userid"];
     $resultat = $lignesComsModel->selectByUserId($userId);
+    echo json_encode($resultat);
+}
+
+if ($operation == "commandes" && $action == "select_cmd_traite" && isset($_GET["userid"])){
+    $userId = $_GET["userid"];
+    $resultat = $commandesModel->selectByUserId($userId);
     echo json_encode($resultat);
 }
 
