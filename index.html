@@ -47,7 +47,10 @@
 <div class="articles" id="articlesList"></div>
 <div id="livraisonsList"></div>
 <div id="commanderZone" class="row"></div>
-<div id="panierZone"></div>
+<div id="panierZone">
+    <div id="articlesPanier"></div>
+    <div id="commandesTraiter"></div>
+</div>
 </div>
 <script src="jquery-3.6.3.js"></script>
 <script src="bootstrap.js"></script>
@@ -118,7 +121,7 @@
         let userId = userData.id;
         let code = "";
         code += "<br><h4>Votre Panier</h4>";
-        let url = URL_BASE_API+"operation=commandes&action=select&userid="+userId;
+        let url = URL_BASE_API+"operation=commandes&action=select_cmd_new&userid="+userId;
         $.get(url, function( data ) {
             let commandes = JSON.parse(data);
             code +="<table class='table table-striped'>";
@@ -146,17 +149,47 @@
                 code +="<td>"+commande.prix+"</td>";
                 code +="<td>"+commande.qte+"</td>";
                 code +="<td>"+montant+"</td>";
-                code +="<td></td>";
+                code +="<td><button class='btn btn-success'>Modifier</button> <button class='btn btn-danger'>Supprimer</button></td>";
                 code +="</tr>";
             }
             code +="<tr>";
             code +="<td colspan=4><b>Total</b></td>";
-            code +="<td colspan=2><b>"+total+"</b></td>";
+            code +="<td><b>"+total+"</b></td>";
+            code += "<td><button class='btn btn-warning'>Commander</button></td>";
             code +="</tbody>";
             code +="</table>";
-            $("#panierZone").html(code);
+            $("#articlesPanier").html(code);
         });
-        $("#panierZone").html(code);
+        $("#articlesPanier").html(code);
+        let code_cmd = "";
+        code_cmd += "<br>";
+        code_cmd += "<h4>Commandes traités</h4>";
+        url = URL_BASE_API+"operation=commandes&action=select_cmd_traite&userid="+userId;
+        $.get(url, function( data ) {
+            let commandes_traites = JSON.parse(data);
+            code_cmd +="<table class='table table-striped'>";
+            code_cmd +="<thead>";
+            code_cmd +="<tr>";
+            code_cmd +="<th>Date</th>";
+            code_cmd +="<th>Libelle</th>";
+            code_cmd +="<th>Montant</th>";
+            code_cmd +="<th>Statut</th>";
+            code_cmd +="</tr>";
+            code_cmd +="</thead>";
+            code_cmd +="<tbody>";        
+            for (let i = 0 ; i < commandes_traites.length ; i++){
+                code_cmd +="<tr>";
+                code_cmd +="<td>"+commandes_traites[i].date+"</td>";
+                code_cmd +="<td>"+commandes_traites[i].libelle+"</td>";
+                code_cmd +="<td>"+commandes_traites[i].montant+"</td>";
+                code_cmd +="<td>"+commandes_traites[i].statut+"</td>";
+                code_cmd +="</tr>";
+            }
+            code_cmd +="</tbody>";
+            code_cmd +="</table>";
+            $("#commandesTraiter").html(code_cmd);
+        });
+        $("#commandesTraiter").html(code_cmd);
     }
 
     function loadActions(){
