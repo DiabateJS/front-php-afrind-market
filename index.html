@@ -616,7 +616,69 @@
     }
 
     function deleteProfil(){
-        
+    }
+
+    function loadAdminCommandesZone(){
+        let code = "";
+        code += "<h4>Supervision des commandes</h4>";
+        code += "<br>";
+        code += "<table class='table table-striped'>";
+        code += "<thead>";
+        code += "<tr>";
+        code += "<th>Libelle</th>";
+        code += "<th>Montant</th>";
+        code += "<th>Statut</th>";
+        code += "<th>Nom</th>";
+        code += "<th>Prenom</th>";
+        code += "<th>Email</th>";
+        code += "<th>Adresse</th>";
+        code += "<th>Telephone</th>";
+        code += "<th>Action</th>";
+        code += "</tr>";
+        code += "</thead>";
+        code += "<tbody>";
+        let url = URL_BASE_API + "operation=commandes&action=all";
+        $.get(url, function( data ) {
+            let oResultat = JSON.parse(data);
+            if (oResultat.statut == 200 && !oResultat.hasError){
+                let arCommandes = oResultat.data;
+                let statut = "";
+                let lg_class = "";
+                let commande = null;
+                for(let i = 0 ; i < arCommandes.length ; i++){
+                    commande = arCommandes[i];
+                    statut = commande.statut;
+                    lg_class = "badge ";
+                    if (statut == "A_REGLER"){
+                        lg_class +="text-bg-primary";
+                    }
+                    if (statut == "REGLE"){
+                        lg_class +="text-bg-success";
+                    }
+                    if (statut == "A_LIVRER"){
+                        lg_class +="text-bg-warning";
+                    }
+                    if (statut == "LIVRER"){
+                        lg_class +="text-bg-info";
+                    }
+                    code += "<tr>";
+                    code += "<td>" + commande.libelle + "</td>";
+                    code += "<td>" + commande.montant + "</td>";
+                    code += "<td><span class='" + lg_class + "''>" + statut + "</span></td>";
+                    code += "<td>" + commande.nom + "</td>";
+                    code += "<td>" + commande.prenom + "</td>";
+                    code += "<td>" + commande.email + "</td>";
+                    code += "<td>" + commande.adresse + "</td>";
+                    code += "<td>" + commande.telephone + "</td>";
+                    code += "<td><a class='btn btn-success' href='#'>Changer Statut</a></td>";
+                    code += "</tr>";
+                }
+                code += "</tbody>";
+                code += "</table>";
+                $("#adminCommandeZone").html(code);
+            }    
+        });
+        $("#adminCommandeZone").html(code);
     }
 
     function selectAdminUserZone(){
@@ -656,6 +718,7 @@
             selectAdminUserZone();
             loadAdminShowUserZone();
             loadAdminUsersProfils();
+            loadAdminCommandesZone();
         });
         $("#livraisons-tab2").click(function(){
             afficherZone("livraisonsList");
