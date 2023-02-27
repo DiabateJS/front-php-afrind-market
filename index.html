@@ -18,7 +18,7 @@
         <div id="zoneUserInfo">
             <i class="fa fa-user" aria-hidden="true"></i><span id="userLogin">Utilisateur : Inconnu</span> 
             <span id="showPanier"><i class="fa fa-cart-plus" aria-hidden="true"></i> <a href="#" onclick="showPanier()">Mon Panier</a></span> 
-            <span id="showProfil"><i class="fa fa-cog" aria-hidden="true"></i> <a href="profil.php?id=1">Mon Profil</a></span>  
+            <span id="showProfil"><i class="fa fa-cog" aria-hidden="true"></i> <a href="#" onclick="loadProfilZone()">Mon Profil</a></span>  
             <span id="showDeconexion"><i class="fa fa-user-times" aria-hidden="true"></i> <a href="#" onclick="deconnexion()">Deconnexion</a></span> 
             <span id="showConnexion"><i class="fa fa-user-circle" aria-hidden="true"></i> <a href="connexion.html">Connexion</a></span>
         </div>
@@ -35,7 +35,7 @@
             <button class="nav-link rounded-5" id="article-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="false">Nouveau</button>
         </li>
         <li class="nav-item" role="presentation" id="contact-box">
-            <button class="nav-link rounded-5" id="contact-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="false">Contact</button>
+            <button class="nav-link rounded-5" id="contact-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="false" onclick="loadContacts()">Contact</button>
         </li>
         <li class="nav-item" role="presentation" id="admin-box">
             <button class="nav-link rounded-5" id="admin-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="false">Administration</button>
@@ -45,11 +45,61 @@
     </nav>
 </header>
 <div class="articles" id="articlesList"></div>
+<div id="adminZone"></div>
 <div id="livraisonsList"></div>
 <div id="commanderZone" class="row"></div>
 <div id="panierZone">
     <div id="articlesPanier"></div>
     <div id="commandesTraiter"></div>
+</div>
+<div id="profilZone"></div>
+<div id="contactZone">
+    <br>
+    <br>
+    <h1>Contacts</h1> 
+    <a href="tel:+225142056204">
+        (+225) 0142056204
+        <img src="images/icon_whatup.png" style="width: 20px; height: 20px">
+    </a><br>
+    <a href="tel:+225544862501">
+        (+225) 0544862501
+        <img src="images/icon_whatup.png" style="width: 20px; height: 20px">
+    </a><br>
+    <a href="tel:+225757227777">
+        (+225) 0757227777
+        <img src="images/icon_whatup.png" style="width: 20px; height: 20px">
+    </a>
+    <br>
+</div>
+<div id="newArticleZone">
+    <br>
+    <h3>Création article</h3>
+    <br>
+    <form method="POST" enctype="multipart/form-data" action="creation_article.php">
+        <div class="mb-3">
+            <label for="libelle" class="form-label">Libelle</label>
+            <input type="text" class="form-control" name="libelle" id="libelle" required>
+        </div>
+        <div class="mb-3">
+            <label for="prix" class="form-label">Prix</label>
+            <input type="text" class="form-control" name="prix" id="prix" required>
+        </div>
+        <div class="mb-3">
+            <label for="qte" class="form-label">Quantité</label>
+            <input type="text" class="form-control" name="qte" id="qte" required>
+        </div>
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Image article</label>
+            <input class="form-control" type="file" name="img_link" id="formFile" accept="image/png, image/jpg, image/jpeg">
+        </div>
+        <div class="mb-3">
+            <label for="commentaire" class="form-label">Commentaire</label>
+            <textarea class="form-control" id="commentaire" name="commentaire" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" name="operation" value="enregistrer">Enregistrer</button>
+        <button class="btn btn-success" name="operation" value="nouveau">Nouveau</button>
+    </form>
+    <br>
 </div>
 </div>
 <script src="jquery-3.6.3.js"></script>
@@ -57,16 +107,40 @@
 <script src="constante.js"></script>
 <script>
     let articles = [];
+    let pageZones = [
+        "contactZone",
+        "articlesList",
+        "livraisonsList",
+        "commanderZone",
+        "panierZone",
+        "profilZone",
+        "adminZone",
+        "newArticleZone"
+    ];
+
+    function afficherZone(zoneName){
+        for (let i = 0 ; i < pageZones.length ; i++){
+            if (pageZones[i] == zoneName){
+                $("#"+pageZones[i]).show();
+            }else{
+                $("#"+pageZones[i]).hide();
+            }
+        }
+    }
 
     function deconnexion(){
         localStorage.setItem("userData","");
+        afficherZone("articlesList");
+
         $("#showConnexion").show();
         $("#showDeconexion").hide();
         $("#showPanier").hide();
         $("#showProfil").hide();
+
         $("#livraisons-box").hide();
         $("#article-box").hide();
         $("#admin-box").hide();
+
         $("#userLogin").html("Utilisateur : Inconnu");     
         loadActions();
     }
@@ -75,47 +149,56 @@
         $("#showPanier").hide();
         $("#showProfil").hide();
         $("#showDeconexion").hide();
+        $("#showConnexion").show();
+
         $("#livraisons-box").hide();
         $("#article-box").hide();
         $("#articles-box").show();
         $("#admin-box").hide();
-        $("#showConnexion").show();
+
+        afficherZone("articlesList");
     }
 
     function loadAdminUserActions(){
         $("#showPanier").show();
         $("#showProfil").show();
         $("#showDeconexion").show();
+
         $("#livraisons-box").hide();
         $("#article-box").show();
         $("#admin-box").show();
+
+        afficherZone("articlesList");
     }
 
     function loadUserActions(){
         $("#showPanier").show();
         $("#showProfil").show();
         $("#showDeconexion").show();
+
         $("#livraisons-box").hide();
         $("#article-box").hide();
         $("#articles-box").show();
         $("#admin-box").hide();
+
+        afficherZone("articlesList");
     }
 
     function loadLivreurActions(){
         $("#showPanier").hide();
         $("#showProfil").hide();
         $("#showDeconexion").show();
+
         $("#livraisons-box").show();
         $("#article-box").hide();
         $("#articles-box").hide();
         $("#admin-box").hide();
+
+        afficherZone("livraisonsList");
     }
 
     function showPanier(){
-        $("#articlesList").hide();
-        $("#livraisonsList").hide();
-        $("#commanderZone").hide();
-        $("#panierZone").show();
+        afficherZone("panierZone");
         let userInfo = localStorage.getItem("userData");
         let userData = JSON.parse(userInfo);
         let userId = userData.id;
@@ -124,40 +207,45 @@
         let url = URL_BASE_API+"operation=commandes&action=select_cmd_new&userid="+userId;
         $.get(url, function( data ) {
             let commandes = JSON.parse(data);
-            code +="<table class='table table-striped'>";
-            code +="<thead>";
-            code += "<tr>";
-            code += "<th>Image</th>";
-            code += "<th>Article</th>";
-            code +="<th>Prix</th>";
-            code +="<th>Qte</th>";
-            code +="<th>Montant</th>";
-            code +="<th>Actions</th>";
-            code += "</tr>";
-            code += "</thead>";
-            code +="<tbody>";
-            let commande = null;
-            let montant = 0;
-            let total = 0;
-            for (let i = 0 ; i < commandes.length ; i++){
-                commande = commandes[i];
-                montant = commande.prix * commande.qte;
-                total += montant;
+            if (commandes.length > 0){
+                code +="<table class='table table-striped'>";
+                code +="<thead>";
+                code += "<tr>";
+                code += "<th>Image</th>";
+                code += "<th>Article</th>";
+                code +="<th>Prix</th>";
+                code +="<th>Qte</th>";
+                code +="<th>Montant</th>";
+                code +="<th>Actions</th>";
+                code += "</tr>";
+                code += "</thead>";
+                code +="<tbody>";
+                let commande = null;
+                let montant = 0;
+                let total = 0;
+                for (let i = 0 ; i < commandes.length ; i++){
+                    commande = commandes[i];
+                    montant = commande.prix * commande.qte;
+                    total += montant;
+                    code +="<tr>";
+                    code +="<td><img src='"+commande.img+"' style='width:50px;height:50px;'></td>";
+                    code +="<td>"+commande.libelle+"</td>";
+                    code +="<td>"+commande.prix+"</td>";
+                    code +="<td>"+commande.qte+"</td>";
+                    code +="<td>"+montant+"</td>";
+                    code +="<td><button class='btn btn-success'>Modifier</button> <button class='btn btn-danger'>Supprimer</button></td>";
+                    code +="</tr>";
+                }
                 code +="<tr>";
-                code +="<td><img src='"+commande.img+"' style='width:50px;height:50px;'></td>";
-                code +="<td>"+commande.libelle+"</td>";
-                code +="<td>"+commande.prix+"</td>";
-                code +="<td>"+commande.qte+"</td>";
-                code +="<td>"+montant+"</td>";
-                code +="<td><button class='btn btn-success'>Modifier</button> <button class='btn btn-danger'>Supprimer</button></td>";
-                code +="</tr>";
+                code +="<td colspan=4><b>Total</b></td>";
+                code +="<td><b>"+total+"</b></td>";
+                code += "<td><button class='btn btn-warning'>Commander</button></td>";
+                code += "</tr>";
+                code +="</tbody>";
+                code +="</table>";
+            }else{
+                code += "<h5>Votre panier est vide !</h5>";
             }
-            code +="<tr>";
-            code +="<td colspan=4><b>Total</b></td>";
-            code +="<td><b>"+total+"</b></td>";
-            code += "<td><button class='btn btn-warning'>Commander</button></td>";
-            code +="</tbody>";
-            code +="</table>";
             $("#articlesPanier").html(code);
         });
         $("#articlesPanier").html(code);
@@ -166,30 +254,38 @@
         code_cmd += "<h4>Commandes traités</h4>";
         url = URL_BASE_API+"operation=commandes&action=select_cmd_traite&userid="+userId;
         $.get(url, function( data ) {
-            let commandes_traites = JSON.parse(data);
-            code_cmd +="<table class='table table-striped'>";
-            code_cmd +="<thead>";
-            code_cmd +="<tr>";
-            code_cmd +="<th>Date</th>";
-            code_cmd +="<th>Libelle</th>";
-            code_cmd +="<th>Montant</th>";
-            code_cmd +="<th>Statut</th>";
-            code_cmd +="</tr>";
-            code_cmd +="</thead>";
-            code_cmd +="<tbody>";        
-            for (let i = 0 ; i < commandes_traites.length ; i++){
+            let commandes_traites = JSON.parse(data);    
+            if (commandes_traites.length > 0){
+                code_cmd +="<table class='table table-striped'>";
+                code_cmd +="<thead>";
                 code_cmd +="<tr>";
-                code_cmd +="<td>"+commandes_traites[i].date+"</td>";
-                code_cmd +="<td>"+commandes_traites[i].libelle+"</td>";
-                code_cmd +="<td>"+commandes_traites[i].montant+"</td>";
-                code_cmd +="<td>"+commandes_traites[i].statut+"</td>";
+                code_cmd +="<th>Date</th>";
+                code_cmd +="<th>Libelle</th>";
+                code_cmd +="<th>Montant</th>";
+                code_cmd +="<th>Statut</th>";
                 code_cmd +="</tr>";
-            }
-            code_cmd +="</tbody>";
-            code_cmd +="</table>";
+                code_cmd +="</thead>";
+                code_cmd +="<tbody>";
+                for (let i = 0 ; i < commandes_traites.length ; i++){
+                    code_cmd +="<tr>";
+                    code_cmd +="<td>"+commandes_traites[i].date+"</td>";
+                    code_cmd +="<td>"+commandes_traites[i].libelle+"</td>";
+                    code_cmd +="<td>"+commandes_traites[i].montant+"</td>";
+                    code_cmd +="<td>"+commandes_traites[i].statut+"</td>";
+                    code_cmd +="</tr>";
+                }
+                code_cmd +="</tbody>";
+                code_cmd +="</table>";
+            }else{
+                code_cmd += "<h5>Vous n'avez pas de commandes traitées !</h5>";
+            }    
             $("#commandesTraiter").html(code_cmd);
         });
         $("#commandesTraiter").html(code_cmd);
+    }
+
+    function loadContacts(){
+        afficherZone("contactZone");
     }
 
     function loadActions(){
@@ -264,10 +360,28 @@
         return code;
     }
 
+    function getProfilZoneCode(userData){
+        let code = "<br><h4>Profil</h4>";
+        code += "<br>";
+        code += "Nom : " + userData.nom + "<br>";
+        code += "Prenom : " + userData.prenom + "<br>";
+        code += "Email : " + userData.email + "<br>";
+        code += "Adresse : " + userData.adresse + "<br>";
+        code += "Telephone : " + userData.telephone + "<br>";
+        code += "Profil : " + userData.profil + "<br>"; 
+        return code;
+    }
+
+    function loadProfilZone(){
+        afficherZone("profilZone");
+        let userInfo = localStorage.getItem("userData");
+        let userData = JSON.parse(userInfo);
+        let code = getProfilZoneCode(userData);
+        $("#profilZone").html(code);
+    }
+
     function loadCommande(articleId){
-        $("#articlesList").hide();
-        $("#livraisonsList").hide();
-        $("#commanderZone").show();
+        afficherZone("commanderZone");
         let article = articles.filter(a => a.id == articleId)[0];
         let code = getCommanderZoneCode(article);
         $("#commanderZone").html(code);
@@ -278,7 +392,6 @@
         let userData = localStorage.getItem("userData");
         let oUserData = JSON.parse(userData);
         let userId = oUserData.id;
-        console.log("Article Id : "+articleId+" User Id : "+userId+" Quantite : "+qte);
         let url = URL_BASE_API + "operation=commandes&action=create&idarticle="+articleId+"&iduser="+userId+"&qte="+qte;
         $.get(url, function( data ) {
             let oData = JSON.parse(data);
@@ -293,19 +406,22 @@
         let urlBase = URL_BASE;
         loadActions();
         $("#articles-tab2").click(function(){
-            window.location.href = urlBase;
+            afficherZone("articlesList");
+            loadArticles();
         });
         $("#article-tab2").click(function(){
-            window.location.href = urlBase + 'nouveau.php';
+            afficherZone("newArticleZone");
         });
         $("#contact-tab2").click(function(){
-            window.location.href = urlBase + 'contact.php';
+            afficherZone("contactZone");
+            loadContacts();
         });
         $("#admin-tab2").click(function(){
-            window.location.href = urlBase + 'administration.php';
+            afficherZone("adminZone");
+            $("#newArticleZone").hide();
         });
         $("#livraisons-tab2").click(function(){
-            window.location.href = urlBase ;
+            afficherZone("livraisonsList");
         });
         loadArticles();
     });
