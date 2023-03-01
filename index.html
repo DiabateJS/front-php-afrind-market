@@ -45,7 +45,12 @@
     </nav>
 </header>
 <div class="articles" id="articlesList"></div>
-<div id="livraisonsList"></div>
+<div id="livraisonsList">
+    <h4>Vos commandes</h4>
+    <br>
+    <div id="commandesALivrer"></div>
+    <div id="commandesLivrer"></div>
+</div>
 <div id="commanderZone" class="row"></div>
 <div id="panierZone">
     <div id="articlesPanier"></div>
@@ -175,60 +180,7 @@
                     </form>
                 </div>
             </div>
-            <div id="adminCommandeZone">
-                <h4>Supervision des commandes</h4>
-                <br>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Libelle</th>
-                            <th>Montant</th>
-                            <th>Statut</th>
-                            <th>Nom</th>
-                            <th>Prenom</th>
-                            <th>Email</th>
-                            <th>Adresse</th>
-                            <th>Telephone</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                        $statut = "";
-                        $class = "";
-                        for($i = 0 ; $i < count($commandes) ; $i++){
-                            $statut = $commandes[$i]["statut"];
-                            $class = "badge ";
-                            if ($statut == "A_REGLER"){
-                                $class .="text-bg-primary";
-                            }
-                            if ($statut == "REGLE"){
-                                $class .="text-bg-success";
-                            }
-                            if ($statut == "A_LIVRER"){
-                                $class .="text-bg-warning";
-                            }
-                            if ($statut == "LIVRER"){
-                                $class .="text-bg-info";
-                            }
-                        ?>
-                        <tr>
-                            <td><?= $commandes[$i]["libelle"] ?></td>
-                            <td><?= $commandes[$i]["montant"] ?></td>
-                            <td><span class="<?= $class ?>"><?= $statut ?></span></td>
-                            <td><?= $commandes[$i]["nom"] ?></td>
-                            <td><?= $commandes[$i]["prenom"] ?></td>
-                            <td><?= $commandes[$i]["email"] ?></td>
-                            <td><?= $commandes[$i]["adresse"] ?></td>
-                            <td><?= $commandes[$i]["telephone"] ?></td>
-                            <td><a class="btn btn-success" href="statut_commande.php?libelle=<?= $commandes[$i]["libelle"] ?>">Changer Statut</a></td>
-                        </tr>
-                    <?php        
-                        }
-                    ?>
-                    </tbody>
-                </table>
-            </div>
+            <div id="adminCommandeZone"></div>
         </div>
     </div>
 </div>
@@ -238,6 +190,7 @@
 <script src="constante.js"></script>
 <script>
     let articles = [];
+    let commandes = [];
     let pageZones = [
         "contactZone",
         "articlesList",
@@ -370,7 +323,7 @@
                 code +="<tr>";
                 code +="<td colspan=4><b>Total</b></td>";
                 code +="<td><b>"+total+"</b></td>";
-                code += "<td><button class='btn btn-warning'>Commander</button></td>";
+                code += "<td><button class='btn btn-warning' onclick='traiterPanier("+userId+")'>Commander</button></td>";
                 code += "</tr>";
                 code +="</tbody>";
                 code +="</table>";
@@ -413,6 +366,20 @@
             $("#commandesTraiter").html(code_cmd);
         });
         $("#commandesTraiter").html(code_cmd);
+    }
+
+    function traiterPanier(userId){
+        let url = URL_BASE_API+"operation=commandes&action=traiter_panier&userid="+userId;
+        let code = "";
+        $.get(url, function( data ) {
+            let oResultat = JSON.parse(data);
+            if (oResultat.statut == 200 && !oResultat.hasError){
+                code +="<br>";
+                code +="<h5>Votre commande a été crée avec succes !</h5>";
+                $("#articlesPanier").html(code);
+            }
+        });
+        $("#articlesPanier").html(code);
     }
 
     function loadContacts(){
@@ -641,12 +608,12 @@
         $.get(url, function( data ) {
             let oResultat = JSON.parse(data);
             if (oResultat.statut == 200 && !oResultat.hasError){
-                let arCommandes = oResultat.data;
+                commandes = oResultat.data;
                 let statut = "";
                 let lg_class = "";
                 let commande = null;
-                for(let i = 0 ; i < arCommandes.length ; i++){
-                    commande = arCommandes[i];
+                for(let i = 0 ; i < commandes.length ; i++){
+                    commande = commandes[i];
                     statut = commande.statut;
                     lg_class = "badge ";
                     if (statut == "A_REGLER"){
@@ -670,7 +637,7 @@
                     code += "<td>" + commande.email + "</td>";
                     code += "<td>" + commande.adresse + "</td>";
                     code += "<td>" + commande.telephone + "</td>";
-                    code += "<td><a class='btn btn-success' href='#'>Changer Statut</a></td>";
+                    code += "<td><a class='btn btn-success' href='#' onclick='changerStatutCommande("+commande.id+")'>Changer Statut</a></td>";
                     code += "</tr>";
                 }
                 code += "</tbody>";
@@ -679,6 +646,274 @@
             }    
         });
         $("#adminCommandeZone").html(code);
+    }
+
+    function traiterStatutARegler(commande, userData){
+        let code = "";
+        code +="<br><br><div class='row'>";
+        code +="<div class='col-6'>";
+        code +="<h5> Reglement de la commande " + commande.libelle + "</h5>";
+        code +="<br>";
+        code +="<br>";
+        code +="Montant commande : <b>" + commande.montant + "</b>";
+        code +="<br>";
+        code +="<br>";
+        code +="<input type='hidden' id='idcmd' value='"+commande.id+"'>";
+        code +="<input type='hidden' id='montant' value='"+commande.montant+"'>";
+        code +="<b>Moyen de paiement</b> <br>";
+        code +="<br>";
+        code +="<input type='radio' name='moyen_paiement' id='moyen_paiement' value='espece' checked> Espece <br>";
+        code +="<input type='radio' name='moyen_paiement' id='moyen_paiement' value='mobile_money'> Mobile Money <br>";
+        code +="<input type='radio' name='moyen_paiement' id='moyen_paiement' value='virement'> Virement bancaire <br>";
+        code +="<br>";
+        code +="<b>Preuve de paiement</b><br>";
+        code +="<br>";
+        code +="<label for='date_paiement'>Date transaction</label>";
+        code +="<input type='date' name='date_paiement' id='date_paiement'><br>";
+        code +="<br>";
+        code +="<label for='ref_paiement'>Reférence transaction</label>";
+        code +="<input type='text' name='ref_paiement' id='ref_paiement'>";
+        code +="<br>";
+        code +="<br>";
+        code +="<button class='btn btn-warning' onclick='reglerCommande()'>Valider</button>";
+        code +="</div>";
+        code +="<div class='col-6'>";
+        code +="<b>Client</b><br>";
+        code +="Nom : "+ userData.nom + " "+ userData.prenom +"<br>";
+        code +="Email : "+ userData.email +"<br>";
+        code +="Telephone : "+ userData.telephone + "<br>";
+        code +="Adresse : " + userData.adresse + "<br>";
+        code +="Date commande : "+commande.datecmd;
+        code +="<br>";
+        code +="<br>";
+        code +="<b>Détails de la commande</b><br>";
+        code +="<br>";
+        code +="<table class='table table-striped'>";
+        code +="<thead>";
+        code +="<tr>";
+        code +="<th>Image</th>";
+        code +="<th>Article</th>";
+        code +="<th>Quantité</th>";
+        code +="<th>Prix</th>";
+        code +="<th>Montant</th>";
+        code +="</tr>";
+        code +="</thead>";
+        code +="<tbody>";
+        let total = 0;
+        let montant = 0;
+        let lignesCommande = [];
+        let url = URL_BASE_API + "operation=commandes&action=selectLignesByRefCom&reference="+commande.libelle;
+        let ligneCommande = null;
+        $.get(url, function( data ) {
+           lignesCommande = JSON.parse(data);
+           for (let i = 0 ; i < lignesCommande.length ; i++){
+                ligneCommande = lignesCommande[i];
+                montant = ligneCommande.qte * ligneCommande.prix;
+                total += montant;
+                code +="<tr>";
+                code +="<td><img src='"+ ligneCommande.img_link +"' style='width:50px;height:50px'></td>";
+                code +="<td>" + ligneCommande.article + "</td>";
+                code +="<td>" + ligneCommande.qte + "</td>";
+                code +="<td>" + ligneCommande.prix + "</td>";
+                code +="<td>" + montant + "</td>";
+                code +="</tr>";  
+            }
+            code +="<tr>";
+            code +="<td colspan=4><b>Total</b> </td>";
+            code +="<td><b>" + total + "</b></td>";
+            code +="</tr>";
+            code +="</tbody>";
+            code +="</table>";
+            code +="</div>";
+            code +="</div>"; 
+            $("#adminCommandeZone").html(code);
+        });
+    }
+
+    function reglerCommande(){
+        let idcmd = $("#idcmd").val();
+        let montant = $("#montant").val();
+        let moyen = $("#moyen_paiement").val();
+        let date = $("#date_paiement").val();
+        let ref = $("#ref_paiement").val();
+
+        let url = URL_BASE_API + "operation=commandes&action=regler_commande&";
+        url += "idcmd="+idcmd+"&montant="+montant+"&moyen_paiement="+moyen+"&date_paiement="+date+"&ref_paiement="+ref;
+
+        $.get(url, function( data ) {
+            let oResultat = JSON.parse(data);
+            if (oResultat.statut == 200 && !oResultat.hasError){
+                alert("Commande traitée avec succes !");
+                loadAdminCommandesZone();
+            }
+        });
+    }
+
+    function traiterStatutRegler(commande, userData){
+        let code = "";
+        code += "<br><br><h4>Affectation de la commande à un livreur</h4>";
+        code += "<br>";
+        code += "<b>Information commande</b><br>";
+        code += "<br>";
+        code += "Référence : "+ commande.libelle +"<br>";
+        code += "Montant : " + commande.montant + "<br>";
+        code += "Date commande : " + commande.datecmd +" <br>";
+        code += "<br>";
+        code += "<b>Information client</b><br>";
+        code += "<br>";
+        code += "Nom et prenom : " + userData.nom + " " + userData.prenom +"<br>";
+        code += "Adresse : " + userData.adresse + "<br>";
+        code += "Téléphone : " + userData.telephone + "<br>";
+        code += "<br>";
+        code += "<input type='hidden' name='idcmd' id='idcmd' value='"+commande.id+"'>";
+        code += "Choisissez un livreur <br>";
+        let livreurs = [];
+        let livreur = null;
+        let url = URL_BASE_API + "operation=users&action=all";
+        $.get(url, function( data ) {
+            let oResultat = JSON.parse(data);
+            if (oResultat.statut == 200 && !oResultat.hasError){
+                let users = oResultat.data;
+                livreurs = users.filter(u => u.profil == "livreur");
+                code += "<select name='idlivreur' id='idlivreur'>";
+                for (let i = 0 ; i < livreurs.length ; i++){
+                    livreur = livreurs[i];
+                    code += "<option value='" + livreur.id + "'>"+livreur.nom + " " + livreur.prenom + "</option>";
+                }
+                code += "</select>";
+                code += "<br>";
+                code += "<br>";
+                code += "<button class='btn btn-warning' onclick='affecterCommandeLivreur()'>Valider affectation</button>";
+                $("#adminCommandeZone").html(code);
+            }
+        });
+        $("#adminCommandeZone").html(code);
+    }
+
+    function affecterCommandeLivreur(){
+        let idCommande = $("#idcmd").val();
+        let idLivreur = $("#idlivreur").val();
+
+        let url = URL_BASE_API + "operation=commandes&action=affecter_livreur&idcmd="+idCommande+"&idlivreur="+idLivreur;
+        $.get(url, function( data ) {
+            let oResultat = JSON.parse(data);
+            if (oResultat.statut == 200 && !oResultat.hasError){
+                alert("Commande affectée à livreur avec succes !");
+                loadAdminCommandesZone();
+            }
+        });
+    }
+
+    function changerStatutCommande(commandeId){
+        let commande = commandes.filter(c => c.id == commandeId)[0];
+        let statut = commande.statut;
+        let userInfo = localStorage.getItem("userData");
+        let userData = JSON.parse(userInfo);
+        if (statut == "A_REGLER"){
+            traiterStatutARegler(commande, userData);
+        }
+        if (statut == "REGLE"){
+            traiterStatutRegler(commande, userData);
+        }
+    }
+
+    function loadLivraisons(){
+        let code_cmd_a_livrer = "";
+        code_cmd_a_livrer += "<br>";
+        code_cmd_a_livrer += "<h5>Commandes à livrer</h5>";
+        code_cmd_a_livrer += "<br>";
+        code_cmd_a_livrer += "<table class='table table-striped'>";
+        code_cmd_a_livrer += "<thead>";
+        code_cmd_a_livrer += "<tr>";
+        code_cmd_a_livrer += "<th>Ref</th>";
+        code_cmd_a_livrer += "<th>Montant</th>";
+        code_cmd_a_livrer += "<th>Nom</th>";
+        code_cmd_a_livrer += "<th>Prenom</th>";
+        code_cmd_a_livrer += "<th>Adresse</th>";
+        code_cmd_a_livrer += "<th>Telephone</th>";
+        code_cmd_a_livrer += "<th>Date commande</th>";
+        code_cmd_a_livrer += "<th>Date affectation</th>";
+        code_cmd_a_livrer += "<th>Actions</th>";
+        code_cmd_a_livrer += "</tr>";
+        code_cmd_a_livrer += "</thead>";
+        let userData = JSON.parse(localStorage.getItem("userData"));
+        let url = URL_BASE_API + "operation=livraisons&action=cmd_a_livrer&userid="+userData.id;
+        $.get(url, function( data ) {
+            let livraisons = JSON.parse(data);
+            let livraison = null;
+            for (let i = 0 ; i < livraisons.length ; i++){
+                livraison = livraisons[i];
+                code_cmd_a_livrer += "<tr>";
+                code_cmd_a_livrer += "<td>" + livraison.libelle + "</td>";
+                code_cmd_a_livrer += "<td>" + livraison.montant + "</td>";
+                code_cmd_a_livrer += "<td>" + livraison.nom_client + "</td>";
+                code_cmd_a_livrer += "<td>" + livraison.prenom_client +"</td>";
+                code_cmd_a_livrer += "<td>" + livraison.adresse_client +"</td>";
+                code_cmd_a_livrer += "<td>" + livraison.telephone_client +"</td>";
+                code_cmd_a_livrer += "<td>" + livraison.datecmd +"</td>";
+                code_cmd_a_livrer += "<td>" + livraison.date_affectation +"</td>";
+                code_cmd_a_livrer += "<td><button class='btn btn-warning' onclick='livrer("+livraison.id+","+userData.id+","+livraison.idcmd+")'>Livrer</button></td>";
+                code_cmd_a_livrer += "</tr>";
+            }
+            code_cmd_a_livrer += "<tbody>";
+            code_cmd_a_livrer += "</tbody>";
+            code_cmd_a_livrer += "</table>";
+            $("#commandesALivrer").html(code_cmd_a_livrer);
+        });
+        
+        let code_cmd_livrer = "";
+        code_cmd_livrer += "<br>";
+        code_cmd_livrer += "<h5>Commandes livrées</h5>";
+        code_cmd_livrer += "<br>";
+        code_cmd_livrer += "<table class='table table-striped'>";
+        code_cmd_livrer += "<thead>";
+        code_cmd_livrer += "<tr>";
+        code_cmd_livrer += "<th>Ref</th>";
+        code_cmd_livrer += "<th>Montant</th>";
+        code_cmd_livrer += "<th>Nom</th>";
+        code_cmd_livrer += "<th>Prenom</th>";
+        code_cmd_livrer += "<th>Adresse</th>";
+        code_cmd_livrer += "<th>Telephone</th>";
+        code_cmd_livrer += "<th>Date commande</th>";
+        code_cmd_livrer += "<th>Date affectation</th>";
+        code_cmd_livrer += "<th>Date livraison</th>";
+        code_cmd_livrer += "</tr>";
+        code_cmd_livrer += "</thead>";
+        let url1 = URL_BASE_API + "operation=livraisons&action=cmd_livrer&userid="+userData.id;
+        $.get(url1, function( data ) {
+            let commandes_livrer = JSON.parse(data);
+            let commande_livrer = null;
+            for (let i = 0 ; i < commandes_livrer.length ; i++){
+                commande_livrer = commandes_livrer[i];
+                code_cmd_livrer += "<tr>";
+                code_cmd_livrer += "<td>" + commande_livrer.libelle + "</td>";
+                code_cmd_livrer += "<td>" + commande_livrer.montant + "</td>";
+                code_cmd_livrer += "<td>" + commande_livrer.nom_client + "</td>";
+                code_cmd_livrer += "<td>" + commande_livrer.prenom_client + "</td>";
+                code_cmd_livrer += "<td>" + commande_livrer.adresse_client + "</td>";
+                code_cmd_livrer += "<td>" + commande_livrer.telephone_client + "</td>";
+                code_cmd_livrer += "<td>" + commande_livrer.datecmd + "</td>";
+                code_cmd_livrer += "<td>" + commande_livrer.date_affectation + "</td>";
+                code_cmd_livrer += "<td>" + commande_livrer.date_livraison + "</td>";
+                code_cmd_livrer += "</tr>";
+            }
+            code_cmd_livrer += "<tbody>";
+            code_cmd_livrer += "</tbody>";
+            code_cmd_livrer += "</table>";
+            $("#commandesLivrer").html(code_cmd_livrer); 
+        });
+    }
+
+    function livrer(idLivraison, idLivreur, idcmd){
+        let url = URL_BASE_API + "operation=livraisons&action=livrer&";
+        url +="idLivraison="+idLivraison+"&idLivreur="+idLivreur+"&idcmd="+idcmd;
+        $.get(url, function( data ) {
+            let oResultat = JSON.parse(data);
+            if (oResultat.statut == 200 && !oResultat.hasError){
+                alert("Livraison effectuée avec succès !");
+                loadLivraisons();
+            }
+        });
     }
 
     function selectAdminUserZone(){
@@ -722,8 +957,14 @@
         });
         $("#livraisons-tab2").click(function(){
             afficherZone("livraisonsList");
+            loadLivraisons();
         });
-        loadArticles();
+        let userData = JSON.parse(localStorage.getItem("userData"));
+        if (userData.profil == "livreur"){
+            loadLivraisons();
+        }else{
+            loadArticles();
+        }
     });
 </script> 
 </body>
